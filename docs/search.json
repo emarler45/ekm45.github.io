@@ -1,10 +1,45 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Eli Marler",
-    "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "objectID": "tutorial.html#read_json",
+    "href": "tutorial.html#read_json",
+    "title": "Tutorial: Pandas Tips & Tricks",
+    "section": "read_json()",
+    "text": "read_json()"
+  },
+  {
+    "objectID": "tutorial.html#read_clipboard",
+    "href": "tutorial.html#read_clipboard",
+    "title": "Tutorial: Pandas Tips & Tricks",
+    "section": "read_clipboard()",
+    "text": "read_clipboard()"
+  },
+  {
+    "objectID": "tutorial.html#pd.categorical",
+    "href": "tutorial.html#pd.categorical",
+    "title": "Tutorial: Pandas Tips & Tricks",
+    "section": "pd.Categorical",
+    "text": "pd.Categorical"
+  },
+  {
+    "objectID": "tutorial.html#series-methods",
+    "href": "tutorial.html#series-methods",
+    "title": "Tutorial: Pandas Tips & Tricks",
+    "section": "Series methods",
+    "text": "Series methods\nMethod list: .add .sub .mul .div .pow .round"
+  },
+  {
+    "objectID": "tutorial.html#pd.namedagg",
+    "href": "tutorial.html#pd.namedagg",
+    "title": "Tutorial: Pandas Tips & Tricks",
+    "section": "pd.NamedAgg()",
+    "text": "pd.NamedAgg()"
+  },
+  {
+    "objectID": "tutorial.html#reset_index",
+    "href": "tutorial.html#reset_index",
+    "title": "Tutorial: Pandas Tips & Tricks",
+    "section": "reset_index()",
+    "text": "reset_index()"
   },
   {
     "objectID": "about.html",
@@ -12,5 +47,12 @@
     "title": "About",
     "section": "",
     "text": "This is Eli’s neat little webpage"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Eli Marler",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   }
 ]
