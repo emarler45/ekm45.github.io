@@ -1,0 +1,33 @@
+---
+title: "Tutorial: Pandas Tips & Tricks"
+---
+
+# Introduction
+
+# Importing Tips & Tricks
+
+## read_json()
+
+## read_clipboard()
+
+# Cleaning Tips & Tricks
+
+## pd.Categorical
+
+## Series methods
+
+Method list:
+.add
+.sub
+.mul
+.div
+.pow
+.round
+
+# Manipulation Tips & Tricks
+
+## pd.NamedAgg()
+
+## reset_index()
+
+# Conclusion
