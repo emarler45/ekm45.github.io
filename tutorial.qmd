@@ -27,7 +27,27 @@ pd.read_json(json_demo)
 Only one argument is required, that being the file path of the data you want to read in. One optional argument I do want to highlight is **orient**. This informs the function the structure of your json. Here's a list of a couple options and their formats from the documentation (linked above).
 <picture>
 
+So, when you inevitably come across JSON data that you want to analyze, remember pandas already has you covered.
+
 ## read_clipboard()
+
+Docs link: https://pandas.pydata.org/docs/reference/api/pandas.read_clipboard.html
+
+Let's say you're reading some other tutorial and you want to replicate some demonstration for yourself, just to check it out. Normally, you'd have to download their data files, or find or create your own data. That can create clutter or otherwise be messy, and probably doesn't feel worth the hassle. Well, as long as you can Ctrl+C, you're in luck! Pandas can read text right off your clipboard and turn it into a DataFrame, as long as there's a discernible structure.
+
+Give it a try! Copy this here simple csv list:
+```{python}
+# <csv_data>
+```
+
+And now let pandas read your clipboard here:
+```{python}
+pd.read_clipboard()
+```
+
+Neat, right? This is super helpful if you ever find yourself looking at data in a program separate to your python IDE and want to do a little analysis. While no parameters are needed, it's important to take note of **sep**. This takes a regex expression that will let pandas know what the separator between values is. The default is whitespace, but you can set it to anything, like a comma in the example above.
+
+One last note with these import tricks: they have their respective export functions as well! If you need, pd.to_json() and pd.to_clipboard() work in a much similar fashion as other export functions, just in the desired format!
 
 # Cleaning Tips & Tricks
 
