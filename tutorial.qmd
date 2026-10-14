@@ -18,7 +18,7 @@ Importing your data is the start of your work, but it's critical. If you can't i
 
 Pandas documentation link: https://pandas.pydata.org/docs/reference/api/pandas.read_json.html
 
-JSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, some databases, like MongoDB. Extracting data out of this format manuall would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function pd.read_json() gladly accepts data of this format and returns it as a glorious data frame!
+JSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, some databases, like MongoDB. Extracting data out of this format manuall would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function **read_json** gladly accepts data of this format and returns it as a glorious DataFrame!
 ```{python}
 json_demo = 'files/data.json'
 pd.read_json(json_demo)
@@ -33,7 +33,7 @@ So, when you inevitably come across JSON data that you want to analyze, remember
 
 Docs link: https://pandas.pydata.org/docs/reference/api/pandas.read_clipboard.html
 
-Let's say you're reading some other tutorial and you want to replicate some demonstration for yourself, just to check it out. Normally, you'd have to download their data files, or find or create your own data. That can create clutter or otherwise be messy, and probably doesn't feel worth the hassle. Well, as long as you can Ctrl+C, you're in luck! Pandas can read text right off your clipboard and turn it into a DataFrame, as long as there's a discernible structure.
+Let's say you're reading some other tutorial and you want to replicate some demonstration for yourself, just to check it out. Normally, you'd have to download their data files, or find or create your own data. That can create clutter or otherwise be messy, and probably doesn't feel worth the hassle. Well, as long as you can Ctrl+C, you're in luck! Wtih **read_clipboard**,Pandas can read text right off your clipboard and turn it into a DataFrame, as long as there's a discernible structure.
 
 Give it a try! Copy this here simple csv list:
 ```{python}
@@ -51,7 +51,31 @@ One last note with these import tricks: they have their respective export functi
 
 # Cleaning Tips & Tricks
 
+Cleaning, while not *technically* necessary, takes data analysis from cursory to professional. It might be lengthy, and boring, but it saves so much extra code, time, and frustration during analysis. Hopefully, these two tricks can help you speed up the process just a little more next time you have to do some chores.
+
 ## pd.Categorical
+
+Docs link: https://pandas.pydata.org/docs/reference/api/pandas.Categorical.html
+
+Did you know that Pandas adds more classes than just the Series and the DataFrame? It's true! One such object is the **Categorical**. This nifty guy can define the options for a categorical variable, which is a common occurence in data. This way, entries in your category column are their own data type, instead of integer, string, or otherwise. 
+
+```{python}
+# demo
+```
+
+One case where this becomes extremely useful is when the category is ordered or hierarchical. If your category is represented by text, comparisons usually don't fair so well:
+
+```{python}
+#haha fail
+```
+
+ After initializing a Categorical, you can run the method **reorder_categories** to set the order. This method requires *new_categories*, a list with the categories in order from highest to lowest, and *ordered*, which must be set to **True** in order to implement the hierachy. Now you can call **sort_values** on the category and it will work!
+
+ ```{python}
+ #not fail
+ ```
+
+ Categorical data is common and useful, so make sure to make the most of it when using pandas by employing the Categorical class!
 
 ## Series methods
 
