@@ -79,13 +79,23 @@ One case where this becomes extremely useful is when the category is ordered or 
 
 ## Series methods
 
-Method list:
-.add
-.sub
-.mul
-.div
-.pow
-.round
+Thankfully, Pandas has made working with columns of DataFrame/Series really intuitive. You can use the normal sign operators between them, like +, -, *, /, %, ^, and more. However, did you know that you can also represent these operations with methods? Here's that same list I gave, but in method form:
+- .add()
+- .sub()
+- .mul()
+- .div()
+- .mod()
+- .pow()
+
+On their own, they're not particularly helpful or interesting. However, there's two hidden features I'd like to spotlight.
+
+For the first, there's once again an optional argument I'd like to call attention to: *fill_value*. In the case that missing values have been left in the dataset, this parameter substitutes your passed in value for the missing value when performing the operation. It's effectively a **fillna** for just a moment.
+
+```{python}
+#fill_value demo
+```
+
+The second secret is that all of the named methods have a reverse method, whose signatures are the same as the original but with an r on the front (for example, **rmod**). This switches the order of the operands: instead of `ser1` ? `ser2`, it performs `ser2` ? `ser1`. Of course, for the commutative operations, this means essentially nothing. And, to be honest, even for the ones that do matter, it's not like there's no way to perform the operation inline. However, this helps the readability of the code by only bringing in the other once it's relevant.
 
 # Manipulation Tips & Tricks
 
