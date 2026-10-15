@@ -109,8 +109,33 @@ Now this is where the good stuff is. Manipulating the data is where you get to s
 
 ## pd.NamedAgg()
 
-Docs Link:
+Docs Link: https://pandas.pydata.org/docs/reference/api/pandas.NamedAgg.html
+
+Another class coming at you, this one called **NamedAgg**! This takes an aggregation that you might make in a DataFrame and assigns it to a variable, or in other words, gives it a name. This way, you can then call that variable when aggregating your DataFrame. This can allow you to use the same aggregation across multiple DataFrames. Furthermore, and in my opinion more useful, is that it makes your code more readable for a demo, like in a notebook.
+
+```{python}
+#wowie
+```
+
+This one's simple, but that's part of its greatness!
 
 ## reset_index()
 
+Docs page: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html
+
+This one might honestly be my favorite. I've used it numerous times in actual projects. We all know that **sort_values** will change the order of the appearance of the rows, showing according to the specified column(s). However, the index values for these rows will remain the same, even if you save the sorted DataFrame to a new name. This is where the method **reset_index** comes to the rescue! This function returns an identical DataFrame, except that the row indexes now start at 1 and go up, esentially setting the default state of the DataFrame to the sorted version.
+
+```{python}
+#sort and change yay
+```
+
+Another useful instance of this method is after creating a grouped DataFrame. These don't come with an index by default, which can cause errors when you try to run other functions on it. Calling **reset_index** will restore an index, solving the issue.
+
+```{python}
+#oh no, my index!
+```
+
+This has been the solution to headache many times for me in the past. Oh, and one bonus tip for you: in **reset_index**, and many others DataFrame methods, there's an argument called *inplace*. Set that to true, and now you can just call the method instead of reassigning the variable to the same name!
+
 # Conclusion
+
