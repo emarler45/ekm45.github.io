@@ -6,10 +6,6 @@ title: "Tutorial: Pandas Tips & Tricks"
 
 Pandas is one of the most useful python packages we have access to in data scicence. The objects it uses (Series, DataFrames, and more) make working with data super easy and intuitive! As a STAT 386 student, you should already have a solid grasp on the main concepts and tools available to you. The purpose of this tutorial is to show off some of the secrets buried in the package that can make some workflows much easier! These tips are split up into 3 sections, covering 3 important steps of working with data: importing, cleaning, and manipulating. Let's get to it!
 
-```{python}
-import pandas as pd
-```
-
 # Importing Tips & Tricks
 
 Importing your data is the start of your work, but it's critical. If you can't import correctly, you can't even get going! While most data you import will probably come from some sort of separated value document, it can be helpful to know that pandas knows how to read more than just those! I'll introduce you to two other importing functions that mightbe of use, one for a format you're quite likely to encounter at some point, and one that is more helful for quick one-offs.
