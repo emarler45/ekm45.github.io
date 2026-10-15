@@ -139,3 +139,4 @@ This has been the solution to headache many times for me in the past. Oh, and on
 
 # Conclusion
 
+There you have it! 6 tips, across several different parts of the data science process. While I don't expect any of these to be earth-shattering revelations, I do hope they bring a little more simplicity or convenience to your next Pandas adventure, or a previous one! I challenge you to go through some previous work and see if one of these tips can't help you refactor some code. Thank you for reading!
