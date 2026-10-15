@@ -97,9 +97,19 @@ For the first, there's once again an optional argument I'd like to call attentio
 
 The second secret is that all of the named methods have a reverse method, whose signatures are the same as the original but with an r on the front (for example, **rmod**). This switches the order of the operands: instead of `ser1` ? `ser2`, it performs `ser2` ? `ser1`. Of course, for the commutative operations, this means essentially nothing. And, to be honest, even for the ones that do matter, it's not like there's no way to perform the operation inline. However, this helps the readability of the code by only bringing in the other once it's relevant.
 
+```{python}
+#compare rdiv and other thing
+```
+
+Hopefully you now feel more confident and prepared to clean your data, particularly when dealing with categorical variables and columnwise operations!
+
 # Manipulation Tips & Tricks
 
+Now this is where the good stuff is. Manipulating the data is where you get to start putting in your own ideas and deriving insights from the data. It's exciting, and the driving part of data science! As you move, create, and impute data, I've go two more tips to help you do that.
+
 ## pd.NamedAgg()
+
+Docs Link:
 
 ## reset_index()
 
