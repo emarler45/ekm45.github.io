@@ -26,6 +26,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -163,37 +198,103 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
+<p>Pandas is one of the most useful python packages we have access to in data scicence. The objects it uses (Series, DataFrames, and more) make working with data super easy and intuitive! As a STAT 386 student, you should already have a solid grasp on the main concepts and tools available to you. The purpose of this tutorial is to show off some of the secrets buried in the package that can make some workflows much easier! These tips are split up into 3 sections, covering 3 important steps of working with data: importing, cleaning, and manipulating. Let’s get to it!</p>
+<div id="fc979b96" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="importing-tips-tricks" class="level1">
 <h1>Importing Tips &amp; Tricks</h1>
+<p>Importing your data is the start of your work, but it’s critical. If you can’t import correctly, you can’t even get going! While most data you import will probably come from some sort of separated value document, it can be helpful to know that pandas knows how to read more than just those! I’ll introduce you to two other importing functions that mightbe of use, one for a format you’re quite likely to encounter at some point, and one that is more helful for quick one-offs.</p>
 <section id="read_json" class="level2">
 <h2 class="anchored" data-anchor-id="read_json">read_json()</h2>
+<p>Pandas documentation link: https://pandas.pydata.org/docs/reference/api/pandas.read_json.html</p>
+<p>JSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, some databases, like MongoDB. Extracting data out of this format manuall would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function <strong>read_json</strong> gladly accepts data of this format and returns it as a glorious DataFrame!</p>
+<div id="9e76627a" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># json_demo = 'files/data.json'</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pd.read_json(json_demo)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Only one argument is required, that being the file path of the data you want to read in. One optional argument I do want to highlight is <strong>orient</strong>. This informs the function the structure of your json. Here’s a list of a couple options and their formats from the documentation (linked above). <picture></picture></p>
+<p>So, when you inevitably come across JSON data that you want to analyze, remember pandas already has you covered.</p>
 </section>
 <section id="read_clipboard" class="level2">
 <h2 class="anchored" data-anchor-id="read_clipboard">read_clipboard()</h2>
+<p>Docs link: https://pandas.pydata.org/docs/reference/api/pandas.read_clipboard.html</p>
+<p>Let’s say you’re reading some other tutorial and you want to replicate some demonstration for yourself, just to check it out. Normally, you’d have to download their data files, or find or create your own data. That can create clutter or otherwise be messy, and probably doesn’t feel worth the hassle. Well, as long as you can Ctrl+C, you’re in luck! Wtih <strong>read_clipboard</strong>,Pandas can read text right off your clipboard and turn it into a DataFrame, as long as there’s a discernible structure.</p>
+<p>Give it a try! Copy this here simple csv list:</p>
+<div id="1a101493" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;csv_data&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>And now let pandas read your clipboard here:</p>
+<div id="c3bec242" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pd.read_clipboard()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Neat, right? This is super helpful if you ever find yourself looking at data in a program separate to your python IDE and want to do a little analysis. While no parameters are needed, it’s important to take note of <strong>sep</strong>. This takes a regex expression that will let pandas know what the separator between values is. The default is whitespace, but you can set it to anything, like a comma in the example above.</p>
+<p>One last note with these import tricks: they have their respective export functions as well! If you need, pd.to_json() and pd.to_clipboard() work in a much similar fashion as other export functions, just in the desired format!</p>
 </section>
 </section>
 <section id="cleaning-tips-tricks" class="level1">
 <h1>Cleaning Tips &amp; Tricks</h1>
+<p>Cleaning, while not <em>technically</em> necessary, takes data analysis from cursory to professional. It might be lengthy, and boring, but it saves so much extra code, time, and frustration during analysis. Hopefully, these two tricks can help you speed up the process just a little more next time you have to do some chores.</p>
 <section id="pd.categorical" class="level2">
 <h2 class="anchored" data-anchor-id="pd.categorical">pd.Categorical</h2>
+<p>Docs link: https://pandas.pydata.org/docs/reference/api/pandas.Categorical.html</p>
+<p>Did you know that Pandas adds more classes than just the Series and the DataFrame? It’s true! One such object is the <strong>Categorical</strong>. This nifty guy can define the options for a categorical variable, which is a common occurence in data. This way, entries in your category column are their own data type, instead of integer, string, or otherwise.</p>
+<div id="ce9ef9b6" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># demo</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>One case where this becomes extremely useful is when the category is ordered or hierarchical. If your category is represented by text, comparisons usually don’t fair so well:</p>
+<div id="b0974a03" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#haha fail</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>After initializing a Categorical, you can run the method <strong>reorder_categories</strong> to set the order. This method requires <em>new_categories</em>, a list with the categories in order from highest to lowest, and <em>ordered</em>, which must be set to <strong>True</strong> in order to implement the hierachy. Now you can call <strong>sort_values</strong> on the category and it will work!</p>
+<p>::: {#bca80abf .cell execution_count=7} <code>{.python .cell-code}  #not fail</code> :::</p>
+<p>Categorical data is common and useful, so make sure to make the most of it when using pandas by employing the Categorical class!</p>
 </section>
 <section id="series-methods" class="level2">
 <h2 class="anchored" data-anchor-id="series-methods">Series methods</h2>
-<p>Method list: .add .sub .mul .div .pow .round</p>
+<p>Thankfully, Pandas has made working with columns of DataFrame/Series really intuitive. You can use the normal sign operators between them, like +, -, *, /, %, ^, and more. However, did you know that you can also represent these operations with methods? Here’s that same list I gave, but in method form: - .add() - .sub() - .mul() - .div() - .mod() - .pow()</p>
+<p>On their own, they’re not particularly helpful or interesting. However, there’s two hidden features I’d like to spotlight.</p>
+<p>For the first, there’s once again an optional argument I’d like to call attention to: <em>fill_value</em>. In the case that missing values have been left in the dataset, this parameter substitutes your passed in value for the missing value when performing the operation. It’s effectively a <strong>fillna</strong> for just a moment.</p>
+<div id="8992f64a" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#fill_value demo</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The second secret is that all of the named methods have a reverse method, whose signatures are the same as the original but with an r on the front (for example, <strong>rmod</strong>). This switches the order of the operands: instead of <code>ser1</code> ? <code>ser2</code>, it performs <code>ser2</code> ? <code>ser1</code>. Of course, for the commutative operations, this means essentially nothing. And, to be honest, even for the ones that do matter, it’s not like there’s no way to perform the operation inline. However, this helps the readability of the code by only bringing in the other once it’s relevant.</p>
+<div id="54835777" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#compare rdiv and other thing</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Hopefully you now feel more confident and prepared to clean your data, particularly when dealing with categorical variables and columnwise operations!</p>
 </section>
 </section>
 <section id="manipulation-tips-tricks" class="level1">
 <h1>Manipulation Tips &amp; Tricks</h1>
+<p>Now this is where the good stuff is. Manipulating the data is where you get to start putting in your own ideas and deriving insights from the data. It’s exciting, and the driving part of data science! As you move, create, and impute data, I’ve go two more tips to help you do that.</p>
 <section id="pd.namedagg" class="level2">
 <h2 class="anchored" data-anchor-id="pd.namedagg">pd.NamedAgg()</h2>
+<p>Docs Link: https://pandas.pydata.org/docs/reference/api/pandas.NamedAgg.html</p>
+<p>Another class coming at you, this one called <strong>NamedAgg</strong>! This takes an aggregation that you might make in a DataFrame and assigns it to a variable, or in other words, gives it a name. This way, you can then call that variable when aggregating your DataFrame. This can allow you to use the same aggregation across multiple DataFrames. Furthermore, and in my opinion more useful, is that it makes your code more readable for a demo, like in a notebook.</p>
+<div id="eb85c3e9" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#wowie</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This one’s simple, but that’s part of its greatness!</p>
 </section>
 <section id="reset_index" class="level2">
 <h2 class="anchored" data-anchor-id="reset_index">reset_index()</h2>
+<p>Docs page: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html</p>
+<p>This one might honestly be my favorite. I’ve used it numerous times in actual projects. We all know that <strong>sort_values</strong> will change the order of the appearance of the rows, showing according to the specified column(s). However, the index values for these rows will remain the same, even if you save the sorted DataFrame to a new name. This is where the method <strong>reset_index</strong> comes to the rescue! This function returns an identical DataFrame, except that the row indexes now start at 1 and go up, esentially setting the default state of the DataFrame to the sorted version.</p>
+<div id="a0d1e234" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#sort and change yay</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Another useful instance of this method is after creating a grouped DataFrame. These don’t come with an index by default, which can cause errors when you try to run other functions on it. Calling <strong>reset_index</strong> will restore an index, solving the issue.</p>
+<div id="6e0a657d" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#oh no, my index!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This has been the solution to headache many times for me in the past. Oh, and one bonus tip for you: in <strong>reset_index</strong>, and many others DataFrame methods, there’s an argument called <em>inplace</em>. Set that to true, and now you can just call the method instead of reassigning the variable to the same name!</p>
 </section>
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
+<p>There you have it! 6 tips, across several different parts of the data science process. While I don’t expect any of these to be earth-shattering revelations, I do hope they bring a little more simplicity or convenience to your next Pandas adventure, or a previous one! I challenge you to go through some previous work and see if one of these tips can’t help you refactor some code. Thank you for reading!</p>
 
 
 </section>

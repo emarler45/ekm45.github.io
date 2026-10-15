@@ -1,45 +1,52 @@
 [
   {
+    "objectID": "tutorial.html",
+    "href": "tutorial.html",
+    "title": "Tutorial: Pandas Tips & Tricks",
+    "section": "",
+    "text": "Pandas is one of the most useful python packages we have access to in data scicence. The objects it uses (Series, DataFrames, and more) make working with data super easy and intuitive! As a STAT 386 student, you should already have a solid grasp on the main concepts and tools available to you. The purpose of this tutorial is to show off some of the secrets buried in the package that can make some workflows much easier! These tips are split up into 3 sections, covering 3 important steps of working with data: importing, cleaning, and manipulating. Let’s get to it!\n\nimport pandas as pd"
+  },
+  {
     "objectID": "tutorial.html#read_json",
     "href": "tutorial.html#read_json",
     "title": "Tutorial: Pandas Tips & Tricks",
     "section": "read_json()",
-    "text": "read_json()"
+    "text": "read_json()\nPandas documentation link: https://pandas.pydata.org/docs/reference/api/pandas.read_json.html\nJSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, some databases, like MongoDB. Extracting data out of this format manuall would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function read_json gladly accepts data of this format and returns it as a glorious DataFrame!\n\n# json_demo = 'files/data.json'\n# pd.read_json(json_demo)\n\nOnly one argument is required, that being the file path of the data you want to read in. One optional argument I do want to highlight is orient. This informs the function the structure of your json. Here’s a list of a couple options and their formats from the documentation (linked above). \nSo, when you inevitably come across JSON data that you want to analyze, remember pandas already has you covered."
   },
   {
     "objectID": "tutorial.html#read_clipboard",
     "href": "tutorial.html#read_clipboard",
     "title": "Tutorial: Pandas Tips & Tricks",
     "section": "read_clipboard()",
-    "text": "read_clipboard()"
+    "text": "read_clipboard()\nDocs link: https://pandas.pydata.org/docs/reference/api/pandas.read_clipboard.html\nLet’s say you’re reading some other tutorial and you want to replicate some demonstration for yourself, just to check it out. Normally, you’d have to download their data files, or find or create your own data. That can create clutter or otherwise be messy, and probably doesn’t feel worth the hassle. Well, as long as you can Ctrl+C, you’re in luck! Wtih read_clipboard,Pandas can read text right off your clipboard and turn it into a DataFrame, as long as there’s a discernible structure.\nGive it a try! Copy this here simple csv list:\n\n# &lt;csv_data&gt;\n\nAnd now let pandas read your clipboard here:\n\n# pd.read_clipboard()\n\nNeat, right? This is super helpful if you ever find yourself looking at data in a program separate to your python IDE and want to do a little analysis. While no parameters are needed, it’s important to take note of sep. This takes a regex expression that will let pandas know what the separator between values is. The default is whitespace, but you can set it to anything, like a comma in the example above.\nOne last note with these import tricks: they have their respective export functions as well! If you need, pd.to_json() and pd.to_clipboard() work in a much similar fashion as other export functions, just in the desired format!"
   },
   {
     "objectID": "tutorial.html#pd.categorical",
     "href": "tutorial.html#pd.categorical",
     "title": "Tutorial: Pandas Tips & Tricks",
     "section": "pd.Categorical",
-    "text": "pd.Categorical"
+    "text": "pd.Categorical\nDocs link: https://pandas.pydata.org/docs/reference/api/pandas.Categorical.html\nDid you know that Pandas adds more classes than just the Series and the DataFrame? It’s true! One such object is the Categorical. This nifty guy can define the options for a categorical variable, which is a common occurence in data. This way, entries in your category column are their own data type, instead of integer, string, or otherwise.\n\n# demo\n\nOne case where this becomes extremely useful is when the category is ordered or hierarchical. If your category is represented by text, comparisons usually don’t fair so well:\n\n#haha fail\n\nAfter initializing a Categorical, you can run the method reorder_categories to set the order. This method requires new_categories, a list with the categories in order from highest to lowest, and ordered, which must be set to True in order to implement the hierachy. Now you can call sort_values on the category and it will work!\n::: {#bca80abf .cell execution_count=7} {.python .cell-code}  #not fail :::\nCategorical data is common and useful, so make sure to make the most of it when using pandas by employing the Categorical class!"
   },
   {
     "objectID": "tutorial.html#series-methods",
     "href": "tutorial.html#series-methods",
     "title": "Tutorial: Pandas Tips & Tricks",
     "section": "Series methods",
-    "text": "Series methods\nMethod list: .add .sub .mul .div .pow .round"
+    "text": "Series methods\nThankfully, Pandas has made working with columns of DataFrame/Series really intuitive. You can use the normal sign operators between them, like +, -, *, /, %, ^, and more. However, did you know that you can also represent these operations with methods? Here’s that same list I gave, but in method form: - .add() - .sub() - .mul() - .div() - .mod() - .pow()\nOn their own, they’re not particularly helpful or interesting. However, there’s two hidden features I’d like to spotlight.\nFor the first, there’s once again an optional argument I’d like to call attention to: fill_value. In the case that missing values have been left in the dataset, this parameter substitutes your passed in value for the missing value when performing the operation. It’s effectively a fillna for just a moment.\n\n#fill_value demo\n\nThe second secret is that all of the named methods have a reverse method, whose signatures are the same as the original but with an r on the front (for example, rmod). This switches the order of the operands: instead of ser1 ? ser2, it performs ser2 ? ser1. Of course, for the commutative operations, this means essentially nothing. And, to be honest, even for the ones that do matter, it’s not like there’s no way to perform the operation inline. However, this helps the readability of the code by only bringing in the other once it’s relevant.\n\n#compare rdiv and other thing\n\nHopefully you now feel more confident and prepared to clean your data, particularly when dealing with categorical variables and columnwise operations!"
   },
   {
     "objectID": "tutorial.html#pd.namedagg",
     "href": "tutorial.html#pd.namedagg",
     "title": "Tutorial: Pandas Tips & Tricks",
     "section": "pd.NamedAgg()",
-    "text": "pd.NamedAgg()"
+    "text": "pd.NamedAgg()\nDocs Link: https://pandas.pydata.org/docs/reference/api/pandas.NamedAgg.html\nAnother class coming at you, this one called NamedAgg! This takes an aggregation that you might make in a DataFrame and assigns it to a variable, or in other words, gives it a name. This way, you can then call that variable when aggregating your DataFrame. This can allow you to use the same aggregation across multiple DataFrames. Furthermore, and in my opinion more useful, is that it makes your code more readable for a demo, like in a notebook.\n\n#wowie\n\nThis one’s simple, but that’s part of its greatness!"
   },
   {
     "objectID": "tutorial.html#reset_index",
     "href": "tutorial.html#reset_index",
     "title": "Tutorial: Pandas Tips & Tricks",
     "section": "reset_index()",
-    "text": "reset_index()"
+    "text": "reset_index()\nDocs page: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html\nThis one might honestly be my favorite. I’ve used it numerous times in actual projects. We all know that sort_values will change the order of the appearance of the rows, showing according to the specified column(s). However, the index values for these rows will remain the same, even if you save the sorted DataFrame to a new name. This is where the method reset_index comes to the rescue! This function returns an identical DataFrame, except that the row indexes now start at 1 and go up, esentially setting the default state of the DataFrame to the sorted version.\n\n#sort and change yay\n\nAnother useful instance of this method is after creating a grouped DataFrame. These don’t come with an index by default, which can cause errors when you try to run other functions on it. Calling reset_index will restore an index, solving the issue.\n\n#oh no, my index!\n\nThis has been the solution to headache many times for me in the past. Oh, and one bonus tip for you: in reset_index, and many others DataFrame methods, there’s an argument called inplace. Set that to true, and now you can just call the method instead of reassigning the variable to the same name!"
   },
   {
     "objectID": "about.html",
