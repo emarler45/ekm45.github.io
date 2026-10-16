@@ -6,6 +6,10 @@ title: "Tutorial: Pandas Tips & Tricks"
 
 Pandas is one of the most useful python packages we have access to in data scicence. The objects it uses (Series, DataFrames, and more) make working with data super easy and intuitive! As a STAT 386 student, you should already have a solid grasp on the main concepts and tools available to you. The purpose of this tutorial is to show off some of the secrets buried in the package that can make some workflows much easier! These tips are split up into 3 sections, covering 3 important steps of working with data: importing, cleaning, and manipulating. Let's get to it!
 
+```{python}
+import pandas as pd
+```
+
 # Importing Tips & Tricks
 
 Importing your data is the start of your work, but it's critical. If you can't import correctly, you can't even get going! While most data you import will probably come from some sort of separated value document, it can be helpful to know that pandas knows how to read more than just those! I'll introduce you to two other importing functions that mightbe of use, one for a format you're quite likely to encounter at some point, and one that is more helful for quick one-offs.
@@ -54,8 +58,6 @@ data.json
 
 JSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, databases. Extracting data out of this format manually would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function **read_json** gladly accepts data of this format and returns it as a glorious DataFrame!
 ```{python}
-import pandas as pd
-
 json_demo = 'tutorialfiles/datajson.csv'
 pd.read_json(json_demo)
 ```
@@ -73,18 +75,26 @@ So, when you inevitably come across JSON data that you want to analyze, remember
 Let's say you're reading some other tutorial and you want to replicate some demonstration for yourself, just to check it out. Normally, you'd have to download their data files, or find or create your own data. That can create clutter or otherwise be messy, and probably doesn't feel worth the hassle. Well, as long as you can Ctrl+C, you're in luck! Wtih **read_clipboard**,Pandas can read text right off your clipboard and turn it into a DataFrame, as long as there's a discernible structure.
 
 Give it a try! Copy this here simple csv list you saw earlier:
-```{python}
-# <csv_data>
+```{csv}
+,Date,Username,seed_type,dragon_death,winner,elo_before,elo_after
+0,Jan  1 2026 20:39:00,autoqualler,DESERT_TEMPLE,,False,1620,1601
+1,Jan  1 2026 20:39:00,7rowl,DESERT_TEMPLE,504.349,True,1657,1676
+2,Jan  1 2026 21:11:12,7rowl,DESERT_TEMPLE,,False,1671,1648
+3,Jan  1 2026 21:11:12,JackoWacko62,DESERT_TEMPLE,498.281,True,1596,1619
+4,Jan  1 2026 21:32:36,JackoWacko62,RUINED_PORTAL,504.775,True,1599,1622
+5,Jan  1 2026 21:32:36,7rowl,RUINED_PORTAL,,False,1668,1645
+6,Jan  1 2026 21:42:59,7rowl,BURIED_TREASURE,494.458,True,1645,1663
+7,Jan  1 2026 21:42:59,7astrid,BURIED_TREASURE,,False,1592,1574
+8,Jan  1 2026 21:53:52,v_strid,VILLAGE,,False,1603,1585
+9,Jan  1 2026 21:53:52,7rowl,VILLAGE,553.354,True,1663,1681
+10,Jan  1 2026 22:28:12,7rowl,VILLAGE,,True,1681,1698
 ```
 
-And now let pandas read your clipboard here:
-```{python}
-# pd.read_clipboard()
-```
+Now open up a directory where you have pandas installed, start a python console, import the package, and then run `pd.read_clipboard(',')`. You'll have to type that out since your clipboard is already full. (I would have the demo here if this wasn't my very first quarto page.)
 
 Neat, right? This is super helpful if you ever find yourself looking at data in a program separate to your python IDE and want to do a little analysis. While no parameters are needed, it's important to take note of **sep**. This takes a regex expression that will let pandas know what the separator between values is. The default is whitespace, but you can set it to anything, like a comma in the example above.
 
-One last note with these import tricks: they have their respective export functions as well! If you need, pd.to_json() and pd.to_clipboard() work in a much similar fashion as other export functions, just in the desired format!
+One last note with these import tricks: they have their respective *export* functions as well! If you need, pd.to_json() and pd.to_clipboard() work in a much similar fashion as other export functions, just in the desired format!
 
 # Cleaning Tips & Tricks
 
@@ -92,12 +102,12 @@ Cleaning, while not *technically* necessary, takes data analysis from cursory to
 
 ## pd.Categorical
 
-Docs link: https://pandas.pydata.org/docs/reference/api/pandas.Categorical.html
+[Docs link](https://pandas.pydata.org/docs/reference/api/pandas.Categorical.html)
 
 Did you know that Pandas adds more classes than just the Series and the DataFrame? It's true! One such object is the **Categorical**. This nifty guy can define the options for a categorical variable, which is a common occurence in data. This way, entries in your category column are their own data type, instead of integer, string, or otherwise. 
 
 ```{python}
-# demo
+df = pd.read_csv('tutorialdata/data.csv')
 ```
 
 One case where this becomes extremely useful is when the category is ordered or hierarchical. If your category is represented by text, comparisons usually don't fair so well:
