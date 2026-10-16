@@ -12,26 +12,67 @@ Importing your data is the start of your work, but it's critical. If you can't i
 
 ## read_json()
 
-Pandas documentation link: https://pandas.pydata.org/docs/reference/api/pandas.read_json.html
+[Pandas docs](https://pandas.pydata.org/docs/reference/api/pandas.read_json.html)
 
-JSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, some databases, like MongoDB. Extracting data out of this format manuall would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function **read_json** gladly accepts data of this format and returns it as a glorious DataFrame!
+Everyone knows that **read_csv** is an easy way to import some data. But what if instead of your data looking like this:
+```{csv}
+data.csv
+,Date,Username,seed_type,dragon_death,winner,elo_before,elo_after
+0,Jan  1 2026 20:39:00,autoqualler,DESERT_TEMPLE,,False,1620,1601
+1,Jan  1 2026 20:39:00,7rowl,DESERT_TEMPLE,504.349,True,1657,1676
+2,Jan  1 2026 21:11:12,7rowl,DESERT_TEMPLE,,False,1671,1648
+```
+
+It looked like this:
+```{json}
+data.json
+{
+    "Date": {
+        "0":1767299940000,
+        "1":1767299940000,
+        "2":1767301872000
+        },
+    "Username": {
+        "0":"autoqualler",
+        "1":"7rowl",
+        "2":"7rowl"
+        },
+    "seed_type": {
+        "0":"DESERT_TEMPLE",
+        "1":"DESERT_TEMPLE",
+        "2":"DESERT_TEMPLE"
+        },
+    "dragon_death": {
+        "0":null,
+        "1":504.349,
+        "2":null
+        },
+    ...
+}
+
+```
+
+JSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, databases. Extracting data out of this format manually would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function **read_json** gladly accepts data of this format and returns it as a glorious DataFrame!
 ```{python}
-# json_demo = 'files/data.json'
-# pd.read_json(json_demo)
+import pandas as pd
+
+json_demo = 'tutorialfiles/datajson.csv'
+pd.read_json(json_demo)
 ```
 
 Only one argument is required, that being the file path of the data you want to read in. One optional argument I do want to highlight is **orient**. This informs the function the structure of your json. Here's a list of a couple options and their formats from the documentation (linked above).
-<picture>
+
+[There are several different formats for JSON data]('images/jsonformats.png')
 
 So, when you inevitably come across JSON data that you want to analyze, remember pandas already has you covered.
 
 ## read_clipboard()
 
-Docs link: https://pandas.pydata.org/docs/reference/api/pandas.read_clipboard.html
+[Docs link](https://pandas.pydata.org/docs/reference/api/pandas.read_clipboard.html)
 
 Let's say you're reading some other tutorial and you want to replicate some demonstration for yourself, just to check it out. Normally, you'd have to download their data files, or find or create your own data. That can create clutter or otherwise be messy, and probably doesn't feel worth the hassle. Well, as long as you can Ctrl+C, you're in luck! Wtih **read_clipboard**,Pandas can read text right off your clipboard and turn it into a DataFrame, as long as there's a discernible structure.
 
-Give it a try! Copy this here simple csv list:
+Give it a try! Copy this here simple csv list you saw earlier:
 ```{python}
 # <csv_data>
 ```
