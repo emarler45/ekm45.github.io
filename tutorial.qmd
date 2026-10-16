@@ -58,7 +58,7 @@ data.json
 
 JSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, databases. Extracting data out of this format manually would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function **read_json** gladly accepts data of this format and returns it as a glorious DataFrame!
 ```{python}
-json_demo = 'tutorialfiles/datajson.csv'
+json_demo = 'tutorialdata/data.json'
 pd.read_json(json_demo)
 ```
 
@@ -90,7 +90,10 @@ Give it a try! Copy this here simple csv list you saw earlier:
 10,Jan  1 2026 22:28:12,7rowl,VILLAGE,,True,1681,1698
 ```
 
-Now open up a directory where you have pandas installed, start a python console, import the package, and then run `pd.read_clipboard(',')`. You'll have to type that out since your clipboard is already full. (I would have the demo here if this wasn't my very first quarto page.)
+```{python}
+pd.read_clipboard(',')
+```
+
 
 Neat, right? This is super helpful if you ever find yourself looking at data in a program separate to your python IDE and want to do a little analysis. While no parameters are needed, it's important to take note of **sep**. This takes a regex expression that will let pandas know what the separator between values is. The default is whitespace, but you can set it to anything, like a comma in the example above.
 
