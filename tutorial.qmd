@@ -90,10 +90,7 @@ Give it a try! Copy this here simple csv list you saw earlier:
 10,Jan  1 2026 22:28:12,7rowl,VILLAGE,,True,1681,1698
 ```
 
-```{python}
-pd.read_clipboard(',')
-```
-
+Now go to a project with pandas installed, open a python console, and run the command `pd.read_clipboard(',')`.
 
 Neat, right? This is super helpful if you ever find yourself looking at data in a program separate to your python IDE and want to do a little analysis. While no parameters are needed, it's important to take note of **sep**. This takes a regex expression that will let pandas know what the separator between values is. The default is whitespace, but you can set it to anything, like a comma in the example above.
 
@@ -131,11 +128,11 @@ df.sort_values("seed_type")
 
  Upon initializing a Categorical, you can add the parameter `ordered=True` to set the order. This method requires *categories*, a list with the categories in order from highest to lowest. Now you can call **sort_values** on the category and it will work!
 
- ```{python}
- df["seed_type"] = pd.Categorical(df["seed_type"], ordered=True, 
+```{python}
+df["seed_type"] = pd.Categorical(df["seed_type"], ordered=True, 
                                 categories=["BURIED_TREASURE", "SHIPWRECK", "RUINED_PORTAL", "VILLAGE", "DESERT_TEMPLE"])
 df.sort_values("seed_type")
- ```
+```
 
  Categorical data is common and useful, so make sure to make the most of it when using pandas by employing the Categorical class!
 
