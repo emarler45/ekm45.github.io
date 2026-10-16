@@ -111,18 +111,30 @@ Did you know that Pandas adds more classes than just the Series and the DataFram
 
 ```{python}
 df = pd.read_csv('tutorialdata/data.csv')
+
+# Here, seed_type is a categorical variable; it can only be one of 5 values
+df["seed_type"]
+
+# Redefining the column with the Categorical class wrapped around it makes it so that the values fall into distinct categories
+df["seed_type"] = pd.Categorical(df["seed_type"])
+df["seed_type"]
+
 ```
 
-One case where this becomes extremely useful is when the category is ordered or hierarchical. If your category is represented by text, comparisons usually don't fair so well:
+One case where this becomes extremely useful is when the category is ordered or hierarchical. If your category is represented by text, sorting usually doesn't fair so well:
 
 ```{python}
-#haha fail
+# Let's say I want to rank the seeds in this order: Buried Treasure, Shipwreck, Ruined Portal, Village, Desert Temple
+# In its current state, the seeds will rank alphabetically
+df.sort_values("seed_type")
 ```
 
- After initializing a Categorical, you can run the method **reorder_categories** to set the order. This method requires *new_categories*, a list with the categories in order from highest to lowest, and *ordered*, which must be set to **True** in order to implement the hierachy. Now you can call **sort_values** on the category and it will work!
+ Upon initializing a Categorical, you can add the parameter `ordered=True` to set the order. This method requires *categories*, a list with the categories in order from highest to lowest. Now you can call **sort_values** on the category and it will work!
 
  ```{python}
- #not fail
+ df["seed_type"] = pd.Categorical(df["seed_type"], ordered=True, 
+                                categories=["BURIED_TREASURE", "SHIPWRECK", "RUINED_PORTAL", "VILLAGE", "DESERT_TEMPLE"])
+df.sort_values("seed_type")
  ```
 
  Categorical data is common and useful, so make sure to make the most of it when using pandas by employing the Categorical class!
@@ -142,13 +154,17 @@ On their own, they're not particularly helpful or interesting. However, there's 
 For the first, there's once again an optional argument I'd like to call attention to: *fill_value*. In the case that missing values have been left in the dataset, this parameter substitutes your passed in value for the missing value when performing the operation. It's effectively a **fillna** for just a moment.
 
 ```{python}
-#fill_value demo
+# Note how you can also use constants!
+df["dragon_death"].sub(90, fill_value=0)
 ```
 
-The second secret is that all of the named methods have a reverse method, whose signatures are the same as the original but with an r on the front (for example, **rmod**). This switches the order of the operands: instead of `ser1` ? `ser2`, it performs `ser2` ? `ser1`. Of course, for the commutative operations, this means essentially nothing. And, to be honest, even for the ones that do matter, it's not like there's no way to perform the operation inline. However, this helps the readability of the code by only bringing in the other once it's relevant.
+The second secret is that all of the named methods have a reverse method, whose signatures are the same as the original but with an r on the front (for example, `rmod`). This switches the order of the operands: instead of `this` ? `other`, it performs `other` ? `this`. Of course, for the commutative operations, this means essentially nothing. And, to be honest, even for the ones that do matter, it's not like there's no way to perform the operation inline. However, this helps the readability of the code by only bringing in the other once it's relevant.
 
 ```{python}
-#compare rdiv and other thing
+# The first column hangs out way over on the left, far from the rest of the operation
+elo_change_pct = df["elo_after"].sub(df["elo_before"]).div(df["elo_after"])
+
+
 ```
 
 Hopefully you now feel more confident and prepared to clean your data, particularly when dealing with categorical variables and columnwise operations!
@@ -159,24 +175,35 @@ Now this is where the good stuff is. Manipulating the data is where you get to s
 
 ## pd.NamedAgg()
 
-Docs Link: https://pandas.pydata.org/docs/reference/api/pandas.NamedAgg.html
+[Docs Link](https://pandas.pydata.org/docs/reference/api/pandas.NamedAgg.html)
 
 Another class coming at you, this one called **NamedAgg**! This takes an aggregation that you might make in a DataFrame and assigns it to a variable, or in other words, gives it a name. This way, you can then call that variable when aggregating your DataFrame. This can allow you to use the same aggregation across multiple DataFrames. Furthermore, and in my opinion more useful, is that it makes your code more readable for a demo, like in a notebook.
 
 ```{python}
-#wowie
+# Here we can define our aggs, with descriptive and recognizable names
+elomaxagg = pd.NamedAgg("elo_after", "maximum")
+timeavgagg = pd.NamedAgg("dragon_death", "mean")
+
+# then we can take a break,perhaps explain another concept..ConnectionAbortedError
+
+# and now we can return to the aggregation, and use our NamedAggs to do so!
+grouped = df.groupby("Username").agg(
+    max_elo = elomaxagg,
+    avg_time = timeavgagg
+)
 ```
 
 This one's simple, but that's part of its greatness!
 
 ## reset_index()
 
-Docs page: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html
+[Docs page](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html)
 
 This one might honestly be my favorite. I've used it numerous times in actual projects. We all know that **sort_values** will change the order of the appearance of the rows, showing according to the specified column(s). However, the index values for these rows will remain the same, even if you save the sorted DataFrame to a new name. This is where the method **reset_index** comes to the rescue! This function returns an identical DataFrame, except that the row indexes now start at 1 and go up, esentially setting the default state of the DataFrame to the sorted version.
 
 ```{python}
-#sort and change yay
+#Notice how here the 
+df.sort_values()
 ```
 
 Another useful instance of this method is after creating a grouped DataFrame. These don't come with an index by default, which can cause errors when you try to run other functions on it. Calling **reset_index** will restore an index, solving the issue.
