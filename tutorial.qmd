@@ -146,6 +146,7 @@ Thankfully, Pandas has made working with columns of DataFrame/Series really intu
 - .sub()
 - .mul()
 - .div()
+- .floordiv()
 - .mod()
 - .pow()
 
@@ -158,13 +159,11 @@ For the first, there's once again an optional argument I'd like to call attentio
 df["dragon_death"].sub(90, fill_value=0)
 ```
 
-The second secret is that all of the named methods have a reverse method, whose signatures are the same as the original but with an r on the front (for example, `rmod`). This switches the order of the operands: instead of `this` ? `other`, it performs `other` ? `this`. Of course, for the commutative operations, this means essentially nothing. And, to be honest, even for the ones that do matter, it's not like there's no way to perform the operation inline. However, this helps the readability of the code by only bringing in the other once it's relevant.
+Secondly, functions are evaluated as they are called, meaning that order of operations doesn't have to be accounted for: you can just call each method one right after the other.
 
 ```{python}
-# The first column hangs out way over on the left, far from the rest of the operation
 elo_change_pct = df["elo_after"].sub(df["elo_before"]).div(df["elo_after"])
-
-
+elo_change_pct
 ```
 
 Hopefully you now feel more confident and prepared to clean your data, particularly when dealing with categorical variables and columnwise operations!
@@ -181,16 +180,17 @@ Another class coming at you, this one called **NamedAgg**! This takes an aggrega
 
 ```{python}
 # Here we can define our aggs, with descriptive and recognizable names
-elomaxagg = pd.NamedAgg("elo_after", "maximum")
-timeavgagg = pd.NamedAgg("dragon_death", "mean")
+elomaxagg = pd.NamedAgg("elo_after", "max")
+eloavgagg = pd.NamedAgg("elo_after", "mean")
 
 # then we can take a break,perhaps explain another concept..ConnectionAbortedError
 
 # and now we can return to the aggregation, and use our NamedAggs to do so!
 grouped = df.groupby("Username").agg(
     max_elo = elomaxagg,
-    avg_time = timeavgagg
+    avg_elo = eloavgagg
 )
+grouped
 ```
 
 This one's simple, but that's part of its greatness!
@@ -202,14 +202,23 @@ This one's simple, but that's part of its greatness!
 This one might honestly be my favorite. I've used it numerous times in actual projects. We all know that **sort_values** will change the order of the appearance of the rows, showing according to the specified column(s). However, the index values for these rows will remain the same, even if you save the sorted DataFrame to a new name. This is where the method **reset_index** comes to the rescue! This function returns an identical DataFrame, except that the row indexes now start at 1 and go up, esentially setting the default state of the DataFrame to the sorted version.
 
 ```{python}
-#Notice how here the 
-df.sort_values()
+#Notice how here the indexes jump around, even after saving the DataFrame
+sorted = df.sort_values("dragon_death")
+sorted
+```
+
+```{python}
+#And now watch the index reset!
+sorted = sorted.reset_index()
+sorted
 ```
 
 Another useful instance of this method is after creating a grouped DataFrame. These don't come with an index by default, which can cause errors when you try to run other functions on it. Calling **reset_index** will restore an index, solving the issue.
 
 ```{python}
-#oh no, my index!
+# You can look at grouped from the NamedAgg demonstration. Up there, the rows don't have indexes. But this will add them!
+grouped.reset_index(inplace=True)
+grouped
 ```
 
 This has been the solution to headache many times for me in the past. Oh, and one bonus tip for you: in **reset_index**, and many others DataFrame methods, there's an argument called *inplace*. Set that to true, and now you can just call the method instead of reassigning the variable to the same name!
