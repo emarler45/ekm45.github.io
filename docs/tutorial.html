@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -108,6 +108,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -133,6 +136,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./tutorial.html" aria-current="page"> 
+<span class="menu-text">Tutorial: Pandas Tips &amp; Tricks</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
@@ -163,7 +170,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#cleaning-tips-tricks" id="toc-cleaning-tips-tricks" class="nav-link" data-scroll-target="#cleaning-tips-tricks">Cleaning Tips &amp; Tricks</a>
   <ul class="collapse">
   <li><a href="#pd.categorical" id="toc-pd.categorical" class="nav-link" data-scroll-target="#pd.categorical">pd.Categorical</a></li>
-  <li><a href="#series-methods" id="toc-series-methods" class="nav-link" data-scroll-target="#series-methods">Series methods</a></li>
   </ul></li>
   <li><a href="#manipulation-tips-tricks" id="toc-manipulation-tips-tricks" class="nav-link" data-scroll-target="#manipulation-tips-tricks">Manipulation Tips &amp; Tricks</a>
   <ul class="collapse">
@@ -199,7 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>Pandas is one of the most useful python packages we have access to in data scicence. The objects it uses (Series, DataFrames, and more) make working with data super easy and intuitive! As a STAT 386 student, you should already have a solid grasp on the main concepts and tools available to you. The purpose of this tutorial is to show off some of the secrets buried in the package that can make some workflows much easier! These tips are split up into 3 sections, covering 3 important steps of working with data: importing, cleaning, and manipulating. Let’s get to it!</p>
-<div id="fc979b96" class="cell" data-execution_count="1">
+<div id="8590faaa" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
@@ -208,29 +214,221 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Importing your data is the start of your work, but it’s critical. If you can’t import correctly, you can’t even get going! While most data you import will probably come from some sort of separated value document, it can be helpful to know that pandas knows how to read more than just those! I’ll introduce you to two other importing functions that mightbe of use, one for a format you’re quite likely to encounter at some point, and one that is more helful for quick one-offs.</p>
 <section id="read_json" class="level2">
 <h2 class="anchored" data-anchor-id="read_json">read_json()</h2>
-<p>Pandas documentation link: https://pandas.pydata.org/docs/reference/api/pandas.read_json.html</p>
-<p>JSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, some databases, like MongoDB. Extracting data out of this format manuall would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function <strong>read_json</strong> gladly accepts data of this format and returns it as a glorious DataFrame!</p>
-<div id="9e76627a" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># json_demo = 'files/data.json'</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pd.read_json(json_demo)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="https://pandas.pydata.org/docs/reference/api/pandas.read_json.html">Pandas docs</a></p>
+<p>Everyone knows that <strong>read_csv</strong> is an easy way to import some data. But what if instead of your data looking like this:</p>
+<pre class="{csv}"><code>data.csv
+,Date,Username,seed_type,dragon_death,winner,elo_before,elo_after
+0,Jan  1 2026 20:39:00,autoqualler,DESERT_TEMPLE,,False,1620,1601
+1,Jan  1 2026 20:39:00,7rowl,DESERT_TEMPLE,504.349,True,1657,1676
+2,Jan  1 2026 21:11:12,7rowl,DESERT_TEMPLE,,False,1671,1648</code></pre>
+<p>It looked like this:</p>
+<pre class="{json}"><code>data.json
+{
+    "Date": {
+        "0":1767299940000,
+        "1":1767299940000,
+        "2":1767301872000
+        },
+    "Username": {
+        "0":"autoqualler",
+        "1":"7rowl",
+        "2":"7rowl"
+        },
+    "seed_type": {
+        "0":"DESERT_TEMPLE",
+        "1":"DESERT_TEMPLE",
+        "2":"DESERT_TEMPLE"
+        },
+    "dragon_death": {
+        "0":null,
+        "1":504.349,
+        "2":null
+        },
+    ...
+}
+</code></pre>
+<p>JSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, databases. Extracting data out of this format manually would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function <strong>read_json</strong> gladly accepts data of this format and returns it as a glorious DataFrame!</p>
+<div id="19b15895" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>json_demo <span class="op">=</span> <span class="st">'tutorialdata/data.json'</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pd.read_json(json_demo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th">Username</th>
+<th data-quarto-table-cell-role="th">seed_type</th>
+<th data-quarto-table-cell-role="th">dragon_death</th>
+<th data-quarto-table-cell-role="th">winner</th>
+<th data-quarto-table-cell-role="th">elo_before</th>
+<th data-quarto-table-cell-role="th">elo_after</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>2026-01-01 20:39:00</td>
+<td>autoqualler</td>
+<td>DESERT_TEMPLE</td>
+<td>NaN</td>
+<td>False</td>
+<td>1620</td>
+<td>1601</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2026-01-01 20:39:00</td>
+<td>7rowl</td>
+<td>DESERT_TEMPLE</td>
+<td>504.349</td>
+<td>True</td>
+<td>1657</td>
+<td>1676</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>2026-01-01 21:11:12</td>
+<td>7rowl</td>
+<td>DESERT_TEMPLE</td>
+<td>NaN</td>
+<td>False</td>
+<td>1671</td>
+<td>1648</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>2026-01-01 21:11:12</td>
+<td>JackoWacko62</td>
+<td>DESERT_TEMPLE</td>
+<td>498.281</td>
+<td>True</td>
+<td>1596</td>
+<td>1619</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>2026-01-01 21:32:36</td>
+<td>JackoWacko62</td>
+<td>RUINED_PORTAL</td>
+<td>504.775</td>
+<td>True</td>
+<td>1599</td>
+<td>1622</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">95</th>
+<td>2026-01-27 07:57:42</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>536.882</td>
+<td>True</td>
+<td>1975</td>
+<td>1995</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">96</th>
+<td>2026-01-27 08:02:08</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>NaN</td>
+<td>True</td>
+<td>1995</td>
+<td>2016</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">97</th>
+<td>2026-01-27 08:02:08</td>
+<td>Watermelon1708</td>
+<td>SHIPWRECK</td>
+<td>NaN</td>
+<td>False</td>
+<td>2011</td>
+<td>1990</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">98</th>
+<td>2026-01-27 08:16:19</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>485.109</td>
+<td>False</td>
+<td>2016</td>
+<td>1997</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">99</th>
+<td>2026-01-27 08:16:19</td>
+<td>bing_pigs</td>
+<td>SHIPWRECK</td>
+<td>477.807</td>
+<td>True</td>
+<td>2057</td>
+<td>2076</td>
+</tr>
+</tbody>
+</table>
+
+<p>100 rows × 7 columns</p>
 </div>
-<p>Only one argument is required, that being the file path of the data you want to read in. One optional argument I do want to highlight is <strong>orient</strong>. This informs the function the structure of your json. Here’s a list of a couple options and their formats from the documentation (linked above). <picture></picture></p>
+</div>
+</div>
+<p>Only one argument is required, that being the file path of the data you want to read in. One optional argument I do want to highlight is <strong>orient</strong>. This informs the function the structure of your json. Here’s a list of a couple options and their formats from the documentation (linked above).</p>
+<p><a href="'images/jsonformats.png'">There are several different formats for JSON data</a></p>
 <p>So, when you inevitably come across JSON data that you want to analyze, remember pandas already has you covered.</p>
 </section>
 <section id="read_clipboard" class="level2">
 <h2 class="anchored" data-anchor-id="read_clipboard">read_clipboard()</h2>
-<p>Docs link: https://pandas.pydata.org/docs/reference/api/pandas.read_clipboard.html</p>
+<p><a href="https://pandas.pydata.org/docs/reference/api/pandas.read_clipboard.html">Docs link</a></p>
 <p>Let’s say you’re reading some other tutorial and you want to replicate some demonstration for yourself, just to check it out. Normally, you’d have to download their data files, or find or create your own data. That can create clutter or otherwise be messy, and probably doesn’t feel worth the hassle. Well, as long as you can Ctrl+C, you’re in luck! Wtih <strong>read_clipboard</strong>,Pandas can read text right off your clipboard and turn it into a DataFrame, as long as there’s a discernible structure.</p>
-<p>Give it a try! Copy this here simple csv list:</p>
-<div id="1a101493" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;csv_data&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Give it a try! Copy this here simple csv list you saw earlier:</p>
+<pre class="{csv}"><code>,Date,Username,seed_type,dragon_death,winner,elo_before,elo_after
+0,Jan  1 2026 20:39:00,autoqualler,DESERT_TEMPLE,,False,1620,1601
+1,Jan  1 2026 20:39:00,7rowl,DESERT_TEMPLE,504.349,True,1657,1676
+2,Jan  1 2026 21:11:12,7rowl,DESERT_TEMPLE,,False,1671,1648
+3,Jan  1 2026 21:11:12,JackoWacko62,DESERT_TEMPLE,498.281,True,1596,1619
+4,Jan  1 2026 21:32:36,JackoWacko62,RUINED_PORTAL,504.775,True,1599,1622
+5,Jan  1 2026 21:32:36,7rowl,RUINED_PORTAL,,False,1668,1645
+6,Jan  1 2026 21:42:59,7rowl,BURIED_TREASURE,494.458,True,1645,1663
+7,Jan  1 2026 21:42:59,7astrid,BURIED_TREASURE,,False,1592,1574
+8,Jan  1 2026 21:53:52,v_strid,VILLAGE,,False,1603,1585
+9,Jan  1 2026 21:53:52,7rowl,VILLAGE,553.354,True,1663,1681
+10,Jan  1 2026 22:28:12,7rowl,VILLAGE,,True,1681,1698</code></pre>
+<div id="13d89450" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pd.read_clipboard(<span class="st">','</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">elo_change_pct = df["elo_after"].sub(df["elo_before"]).div(df["elo_after"])</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
 </div>
-<p>And now let pandas read your clipboard here:</p>
-<div id="c3bec242" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pd.read_clipboard()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 <p>Neat, right? This is super helpful if you ever find yourself looking at data in a program separate to your python IDE and want to do a little analysis. While no parameters are needed, it’s important to take note of <strong>sep</strong>. This takes a regex expression that will let pandas know what the separator between values is. The default is whitespace, but you can set it to anything, like a comma in the example above.</p>
-<p>One last note with these import tricks: they have their respective export functions as well! If you need, pd.to_json() and pd.to_clipboard() work in a much similar fashion as other export functions, just in the desired format!</p>
+<p>One last note with these import tricks: they have their respective <em>export</em> functions as well! If you need, pd.to_json() and pd.to_clipboard() work in a much similar fashion as other export functions, just in the desired format!</p>
 </section>
 </section>
 <section id="cleaning-tips-tricks" class="level1">
@@ -238,30 +436,613 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Cleaning, while not <em>technically</em> necessary, takes data analysis from cursory to professional. It might be lengthy, and boring, but it saves so much extra code, time, and frustration during analysis. Hopefully, these two tricks can help you speed up the process just a little more next time you have to do some chores.</p>
 <section id="pd.categorical" class="level2">
 <h2 class="anchored" data-anchor-id="pd.categorical">pd.Categorical</h2>
-<p>Docs link: https://pandas.pydata.org/docs/reference/api/pandas.Categorical.html</p>
+<p><a href="https://pandas.pydata.org/docs/reference/api/pandas.Categorical.html">Docs link</a></p>
 <p>Did you know that Pandas adds more classes than just the Series and the DataFrame? It’s true! One such object is the <strong>Categorical</strong>. This nifty guy can define the options for a categorical variable, which is a common occurence in data. This way, entries in your category column are their own data type, instead of integer, string, or otherwise.</p>
-<div id="ce9ef9b6" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># demo</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="35aa1219" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'tutorialdata/data.csv'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, seed_type is a categorical variable; it can only be one of 5 values</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Redefining the column with the Categorical class wrapped around it makes it so that the values fall into distinct categories</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">"seed_type"</span>])</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>0     DESERT_TEMPLE
+1     DESERT_TEMPLE
+2     DESERT_TEMPLE
+3     DESERT_TEMPLE
+4     RUINED_PORTAL
+          ...      
+95        SHIPWRECK
+96        SHIPWRECK
+97        SHIPWRECK
+98        SHIPWRECK
+99        SHIPWRECK
+Name: seed_type, Length: 100, dtype: category
+Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIPWRECK', 'VILLAGE']</code></pre>
 </div>
-<p>One case where this becomes extremely useful is when the category is ordered or hierarchical. If your category is represented by text, comparisons usually don’t fair so well:</p>
-<div id="b0974a03" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#haha fail</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>After initializing a Categorical, you can run the method <strong>reorder_categories</strong> to set the order. This method requires <em>new_categories</em>, a list with the categories in order from highest to lowest, and <em>ordered</em>, which must be set to <strong>True</strong> in order to implement the hierachy. Now you can call <strong>sort_values</strong> on the category and it will work!</p>
-<p>::: {#bca80abf .cell execution_count=7} <code>{.python .cell-code}  #not fail</code> :::</p>
-<p>Categorical data is common and useful, so make sure to make the most of it when using pandas by employing the Categorical class!</p>
-</section>
-<section id="series-methods" class="level2">
-<h2 class="anchored" data-anchor-id="series-methods">Series methods</h2>
-<p>Thankfully, Pandas has made working with columns of DataFrame/Series really intuitive. You can use the normal sign operators between them, like +, -, *, /, %, ^, and more. However, did you know that you can also represent these operations with methods? Here’s that same list I gave, but in method form: - .add() - .sub() - .mul() - .div() - .mod() - .pow()</p>
-<p>On their own, they’re not particularly helpful or interesting. However, there’s two hidden features I’d like to spotlight.</p>
-<p>For the first, there’s once again an optional argument I’d like to call attention to: <em>fill_value</em>. In the case that missing values have been left in the dataset, this parameter substitutes your passed in value for the missing value when performing the operation. It’s effectively a <strong>fillna</strong> for just a moment.</p>
-<div id="8992f64a" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#fill_value demo</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>One case where this becomes extremely useful is when the category is ordered or hierarchical. If your category is represented by text, sorting usually doesn’t fair so well:</p>
+<div id="6428b9ef" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's say I want to rank the seeds in this order: Buried Treasure, Shipwreck, Ruined Portal, Village, Desert Temple</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># In its current state, the seeds will rank alphabetically</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">"seed_type"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Unnamed: 0</th>
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th">Username</th>
+<th data-quarto-table-cell-role="th">seed_type</th>
+<th data-quarto-table-cell-role="th">dragon_death</th>
+<th data-quarto-table-cell-role="th">winner</th>
+<th data-quarto-table-cell-role="th">elo_before</th>
+<th data-quarto-table-cell-role="th">elo_after</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">77</th>
+<td>77</td>
+<td>Jan 27 2026 05:12:27</td>
+<td>7rowl</td>
+<td>BURIED_TREASURE</td>
+<td>521.197</td>
+<td>True</td>
+<td>1834</td>
+<td>1848</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">25</th>
+<td>25</td>
+<td>Jan&nbsp;&nbsp;4 2026 18:38:18</td>
+<td>7rowl</td>
+<td>BURIED_TREASURE</td>
+<td>471.949</td>
+<td>True</td>
+<td>1711</td>
+<td>1730</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">15</th>
+<td>15</td>
+<td>Jan&nbsp;&nbsp;4 2026 17:56:55</td>
+<td>7rowl</td>
+<td>BURIED_TREASURE</td>
+<td>547.252</td>
+<td>True</td>
+<td>1684</td>
+<td>1704</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">14</th>
+<td>14</td>
+<td>Jan&nbsp;&nbsp;4 2026 17:56:55</td>
+<td>nEmerald</td>
+<td>BURIED_TREASURE</td>
+<td>NaN</td>
+<td>False</td>
+<td>1693</td>
+<td>1673</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">80</th>
+<td>80</td>
+<td>Jan 27 2026 05:43:16</td>
+<td>7rowl</td>
+<td>BURIED_TREASURE</td>
+<td>501.521</td>
+<td>True</td>
+<td>1863</td>
+<td>1876</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">69</th>
+<td>69</td>
+<td>Jan 21 2026 07:37:16</td>
+<td>Ancoboyy</td>
+<td>VILLAGE</td>
+<td>598.915</td>
+<td>True</td>
+<td>1934</td>
+<td>1951</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">68</th>
+<td>68</td>
+<td>Jan 21 2026 07:37:16</td>
+<td>7rowl</td>
+<td>VILLAGE</td>
+<td>NaN</td>
+<td>False</td>
+<td>1839</td>
+<td>1822</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">63</th>
+<td>63</td>
+<td>Jan 21 2026 06:59:12</td>
+<td>Thieu_ta_H_Light</td>
+<td>VILLAGE</td>
+<td>661.661</td>
+<td>True</td>
+<td>1674</td>
+<td>1700</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">10</th>
+<td>10</td>
+<td>Jan&nbsp;&nbsp;1 2026 22:28:12</td>
+<td>7rowl</td>
+<td>VILLAGE</td>
+<td>NaN</td>
+<td>True</td>
+<td>1681</td>
+<td>1698</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">73</th>
+<td>73</td>
+<td>Jan 27 2026 04:49:24</td>
+<td>7rowl</td>
+<td>VILLAGE</td>
+<td>597.008</td>
+<td>True</td>
+<td>1836</td>
+<td>1858</td>
+</tr>
+</tbody>
+</table>
+
+<p>100 rows × 8 columns</p>
 </div>
-<p>The second secret is that all of the named methods have a reverse method, whose signatures are the same as the original but with an r on the front (for example, <strong>rmod</strong>). This switches the order of the operands: instead of <code>ser1</code> ? <code>ser2</code>, it performs <code>ser2</code> ? <code>ser1</code>. Of course, for the commutative operations, this means essentially nothing. And, to be honest, even for the ones that do matter, it’s not like there’s no way to perform the operation inline. However, this helps the readability of the code by only bringing in the other once it’s relevant.</p>
-<div id="54835777" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#compare rdiv and other thing</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Upon initializing a Categorical, you can add the parameter <code>ordered=True</code> to set the order. This method requires <em>categories</em>, a list with the categories in order from highest to lowest. Now you can call <strong>sort_values</strong> on the category and it will work!</p>
+<p>::: {#7b2782c3 .cell execution_count=6} <code>{.python .cell-code}  df["seed_type"] = pd.Categorical(df["seed_type"], ordered=True,                                  categories=["BURIED_TREASURE", "SHIPWRECK", "RUINED_PORTAL", "VILLAGE", "DESERT_TEMPLE"])  df.sort_values("seed_type")</code></p>
+::: {.cell-output .cell-output-display execution_count=18} ```{=html}
+<div>
+<p><style scoped=""> .dataframe tbody tr th:only-of-type { vertical-align: middle; }</p>
+<pre><code> .dataframe tbody tr th {
+     vertical-align: top;
+ }
+
+ .dataframe thead th {
+     text-align: right;
+ }</code></pre>
+</style>
+</p><table class="dataframe table table-sm table-striped small">
+<thead>
+<tr>
+<th>
+</th>
+<th>
+Unnamed: 0
+</th>
+<th>
+Date
+</th>
+<th>
+Username
+</th>
+<th>
+seed_type
+</th>
+<th>
+dragon_death
+</th>
+<th>
+winner
+</th>
+<th>
+elo_before
+</th>
+<th>
+elo_after
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+24
+</th>
+<td>
+24
+</td>
+<td>
+Jan&nbsp;&nbsp;4 2026 18:38:18
+</td>
+<td>
+Psemcovici
+</td>
+<td>
+BURIED_TREASURE
+</td>
+<td>
+NaN
+</td>
+<td>
+False
+</td>
+<td>
+1671
+</td>
+<td>
+1652
+</td>
+</tr>
+<tr>
+<th>
+65
+</th>
+<td>
+65
+</td>
+<td>
+Jan 21 2026 07:13:57
+</td>
+<td>
+7rowl
+</td>
+<td>
+BURIED_TREASURE
+</td>
+<td>
+678.850
+</td>
+<td>
+True
+</td>
+<td>
+1812
+</td>
+<td>
+1826
+</td>
+</tr>
+<tr>
+<th>
+64
+</th>
+<td>
+64
+</td>
+<td>
+Jan 21 2026 07:13:57
+</td>
+<td>
+pplazzz
+</td>
+<td>
+BURIED_TREASURE
+</td>
+<td>
+NaN
+</td>
+<td>
+False
+</td>
+<td>
+1650
+</td>
+<td>
+1636
+</td>
+</tr>
+<tr>
+<th>
+59
+</th>
+<td>
+59
+</td>
+<td>
+Jan 21 2026 06:34:37
+</td>
+<td>
+7rowl
+</td>
+<td>
+BURIED_TREASURE
+</td>
+<td>
+521.117
+</td>
+<td>
+True
+</td>
+<td>
+1797
+</td>
+<td>
+1814
+</td>
+</tr>
+<tr>
+<th>
+58
+</th>
+<td>
+58
+</td>
+<td>
+Jan 21 2026 06:34:37
+</td>
+<td>
+sosiski52
+</td>
+<td>
+BURIED_TREASURE
+</td>
+<td>
+NaN
+</td>
+<td>
+False
+</td>
+<td>
+1705
+</td>
+<td>
+1688
+</td>
+</tr>
+<tr>
+<th>
+…
+</th>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+</tr>
+<tr>
+<th>
+19
+</th>
+<td>
+19
+</td>
+<td>
+Jan&nbsp;&nbsp;4 2026 18:13:39
+</td>
+<td>
+7rowl
+</td>
+<td>
+DESERT_TEMPLE
+</td>
+<td>
+NaN
+</td>
+<td>
+True
+</td>
+<td>
+1730
+</td>
+<td>
+1749
+</td>
+</tr>
+<tr>
+<th>
+30
+</th>
+<td>
+30
+</td>
+<td>
+Jan&nbsp;&nbsp;4 2026 19:14:57
+</td>
+<td>
+7rowl
+</td>
+<td>
+DESERT_TEMPLE
+</td>
+<td>
+608.593
+</td>
+<td>
+False
+</td>
+<td>
+1723
+</td>
+<td>
+1703
+</td>
+</tr>
+<tr>
+<th>
+31
+</th>
+<td>
+31
+</td>
+<td>
+Jan&nbsp;&nbsp;4 2026 19:14:57
+</td>
+<td>
+meebie
+</td>
+<td>
+DESERT_TEMPLE
+</td>
+<td>
+607.799
+</td>
+<td>
+True
+</td>
+<td>
+1712
+</td>
+<td>
+1732
+</td>
+</tr>
+<tr>
+<th>
+83
+</th>
+<td>
+83
+</td>
+<td>
+Jan 27 2026 06:21:44
+</td>
+<td>
+Fkhxyyy
+</td>
+<td>
+DESERT_TEMPLE
+</td>
+<td>
+NaN
+</td>
+<td>
+False
+</td>
+<td>
+1719
+</td>
+<td>
+1705
+</td>
+</tr>
+<tr>
+<th>
+0
+</th>
+<td>
+0
+</td>
+<td>
+Jan&nbsp;&nbsp;1 2026 20:39:00
+</td>
+<td>
+autoqualler
+</td>
+<td>
+DESERT_TEMPLE
+</td>
+<td>
+NaN
+</td>
+<td>
+False
+</td>
+<td>
+1620
+</td>
+<td>
+1601
+</td>
+</tr>
+</tbody>
+</table>
+<p>
+100 rows × 8 columns
+</p>
+</div>
+<pre><code>:::
+:::
+
+
+Categorical data is common and useful, so make sure to make the most of it when using pandas by employing the Categorical class!
+
+## Series methods
+
+Thankfully, Pandas has made working with columns of DataFrame/Series really intuitive. You can use the normal sign operators between them, like +, -, *, /, %, ^, and more. However, did you know that you can also represent these operations with methods? Here's that same list I gave, but in method form:
+- .add()
+- .sub()
+- .mul()
+- .div()
+- .floordiv()
+- .mod()
+- .pow()
+
+On their own, they're not particularly helpful or interesting. However, there's two hidden features I'd like to spotlight.
+
+For the first, there's once again an optional argument I'd like to call attention to: *fill_value*. In the case that missing values have been left in the dataset, this parameter substitutes your passed in value for the missing value when performing the operation. It's effectively a **fillna** for just a moment.
+
+::: {#b130615b .cell execution_count=7}
+``` {.python .cell-code}
+# Note how you can also use constants!
+df["dragon_death"].sub(90, fill_value=0)</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>0     -90.000
+1     414.349
+2     -90.000
+3     408.281
+4     414.775
+       ...   
+95    446.882
+96    -90.000
+97    -90.000
+98    395.109
+99    387.807
+Name: dragon_death, Length: 100, dtype: float64</code></pre>
+</div>
+<p>:::</p>
+<p>Secondly, functions are evaluated as they are called, meaning that order of operations doesn’t have to be accounted for: you can just call each method one right after the other.</p>
+<div id="4981ee90" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>elo_change_pct <span class="op">=</span> df[<span class="st">"elo_after"</span>].sub(df[<span class="st">"elo_before"</span>]).div(df[<span class="st">"elo_after"</span>])</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>elo_change_pct</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>0    -0.011868
+1     0.011337
+2    -0.013956
+3     0.014206
+4     0.014180
+        ...   
+95    0.010025
+96    0.010417
+97   -0.010553
+98   -0.009514
+99    0.009152
+Length: 100, dtype: float64</code></pre>
+</div>
 </div>
 <p>Hopefully you now feel more confident and prepared to clean your data, particularly when dealing with categorical variables and columnwise operations!</p>
 </section>
@@ -271,23 +1052,796 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Now this is where the good stuff is. Manipulating the data is where you get to start putting in your own ideas and deriving insights from the data. It’s exciting, and the driving part of data science! As you move, create, and impute data, I’ve go two more tips to help you do that.</p>
 <section id="pd.namedagg" class="level2">
 <h2 class="anchored" data-anchor-id="pd.namedagg">pd.NamedAgg()</h2>
-<p>Docs Link: https://pandas.pydata.org/docs/reference/api/pandas.NamedAgg.html</p>
+<p><a href="https://pandas.pydata.org/docs/reference/api/pandas.NamedAgg.html">Docs Link</a></p>
 <p>Another class coming at you, this one called <strong>NamedAgg</strong>! This takes an aggregation that you might make in a DataFrame and assigns it to a variable, or in other words, gives it a name. This way, you can then call that variable when aggregating your DataFrame. This can allow you to use the same aggregation across multiple DataFrames. Furthermore, and in my opinion more useful, is that it makes your code more readable for a demo, like in a notebook.</p>
-<div id="eb85c3e9" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#wowie</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="93801fc6" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we can define our aggs, with descriptive and recognizable names</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>elomaxagg <span class="op">=</span> pd.NamedAgg(<span class="st">"elo_after"</span>, <span class="st">"max"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>eloavgagg <span class="op">=</span> pd.NamedAgg(<span class="st">"elo_after"</span>, <span class="st">"mean"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># then we can take a break,perhaps explain another concept..ConnectionAbortedError</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># and now we can return to the aggregation, and use our NamedAggs to do so!</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby(<span class="st">"Username"</span>).agg(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    max_elo <span class="op">=</span> elomaxagg,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    avg_elo <span class="op">=</span> eloavgagg</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>grouped</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">max_elo</th>
+<th data-quarto-table-cell-role="th">avg_elo</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Username</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">7astrid</th>
+<td>1574</td>
+<td>1574.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7rowl</th>
+<td>2016</td>
+<td>1802.180000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Ancoboyy</th>
+<td>1951</td>
+<td>1929.500000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Feinberg</th>
+<td>1885</td>
+<td>1860.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Finnitzko</th>
+<td>1657</td>
+<td>1648.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Fkhxyyy</th>
+<td>1705</td>
+<td>1704.500000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Infume</th>
+<td>1844</td>
+<td>1844.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">JackoWacko62</th>
+<td>1622</td>
+<td>1608.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">JustAltoid</th>
+<td>1860</td>
+<td>1860.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">LilMinien</th>
+<td>1562</td>
+<td>1562.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Magmania</th>
+<td>1773</td>
+<td>1773.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">MrBudgiee</th>
+<td>1803</td>
+<td>1803.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">MultiPori</th>
+<td>1645</td>
+<td>1645.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Psemcovici</th>
+<td>1652</td>
+<td>1652.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Thieu_ta_H_Light</th>
+<td>1700</td>
+<td>1674.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Watermelon1708</th>
+<td>1990</td>
+<td>1990.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Wayyyyyy_</th>
+<td>1598</td>
+<td>1598.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">autoqualler</th>
+<td>1601</td>
+<td>1601.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">bing_pigs</th>
+<td>2076</td>
+<td>2047.500000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">blobserr</th>
+<td>1765</td>
+<td>1765.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">meebie</th>
+<td>1732</td>
+<td>1732.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">mi5f1t</th>
+<td>1633</td>
+<td>1633.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">nEmerald</th>
+<td>1716</td>
+<td>1699.750000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">pardonmc</th>
+<td>1687</td>
+<td>1687.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">paukll</th>
+<td>1620</td>
+<td>1620.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">pogmonkey21</th>
+<td>1590</td>
+<td>1590.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">pplazzz</th>
+<td>1636</td>
+<td>1636.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">retropog</th>
+<td>1957</td>
+<td>1957.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">shrddr</th>
+<td>1654</td>
+<td>1654.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">skylewl</th>
+<td>1590</td>
+<td>1590.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">sosiski52</th>
+<td>1847</td>
+<td>1767.500000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">takachaaaaaaan</th>
+<td>1657</td>
+<td>1657.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">v_strid</th>
+<td>1585</td>
+<td>1585.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">vorbh</th>
+<td>1775</td>
+<td>1751.666667</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">vorbhfan6</th>
+<td>1691</td>
+<td>1691.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">xFray_</th>
+<td>1724</td>
+<td>1724.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">yjako</th>
+<td>1804</td>
+<td>1804.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
 <p>This one’s simple, but that’s part of its greatness!</p>
 </section>
 <section id="reset_index" class="level2">
 <h2 class="anchored" data-anchor-id="reset_index">reset_index()</h2>
-<p>Docs page: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html</p>
+<p><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html">Docs page</a></p>
 <p>This one might honestly be my favorite. I’ve used it numerous times in actual projects. We all know that <strong>sort_values</strong> will change the order of the appearance of the rows, showing according to the specified column(s). However, the index values for these rows will remain the same, even if you save the sorted DataFrame to a new name. This is where the method <strong>reset_index</strong> comes to the rescue! This function returns an identical DataFrame, except that the row indexes now start at 1 and go up, esentially setting the default state of the DataFrame to the sorted version.</p>
-<div id="a0d1e234" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#sort and change yay</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="c857ddac" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Notice how here the indexes jump around, even after saving the DataFrame</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span> <span class="op">=</span> df.sort_values(<span class="st">"dragon_death"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Unnamed: 0</th>
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th">Username</th>
+<th data-quarto-table-cell-role="th">seed_type</th>
+<th data-quarto-table-cell-role="th">dragon_death</th>
+<th data-quarto-table-cell-role="th">winner</th>
+<th data-quarto-table-cell-role="th">elo_before</th>
+<th data-quarto-table-cell-role="th">elo_after</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">46</th>
+<td>46</td>
+<td>Jan 13 2026 06:44:09</td>
+<td>7rowl</td>
+<td>RUINED_PORTAL</td>
+<td>432.848</td>
+<td>True</td>
+<td>1792</td>
+<td>1810</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">25</th>
+<td>25</td>
+<td>Jan&nbsp;&nbsp;4 2026 18:38:18</td>
+<td>7rowl</td>
+<td>BURIED_TREASURE</td>
+<td>471.949</td>
+<td>True</td>
+<td>1711</td>
+<td>1730</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">99</th>
+<td>99</td>
+<td>Jan 27 2026 08:16:19</td>
+<td>bing_pigs</td>
+<td>SHIPWRECK</td>
+<td>477.807</td>
+<td>True</td>
+<td>2057</td>
+<td>2076</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">98</th>
+<td>98</td>
+<td>Jan 27 2026 08:16:19</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>485.109</td>
+<td>False</td>
+<td>2016</td>
+<td>1997</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">38</th>
+<td>38</td>
+<td>Jan&nbsp;&nbsp;4 2026 19:48:19</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>491.928</td>
+<td>True</td>
+<td>1759</td>
+<td>1775</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">90</th>
+<td>90</td>
+<td>Jan 27 2026 07:23:57</td>
+<td>yjako</td>
+<td>VILLAGE</td>
+<td>NaN</td>
+<td>False</td>
+<td>1820</td>
+<td>1804</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">92</th>
+<td>92</td>
+<td>Jan 27 2026 07:37:23</td>
+<td>sosiski52</td>
+<td>DESERT_TEMPLE</td>
+<td>NaN</td>
+<td>False</td>
+<td>1864</td>
+<td>1847</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">94</th>
+<td>94</td>
+<td>Jan 27 2026 07:57:42</td>
+<td>retropog</td>
+<td>SHIPWRECK</td>
+<td>NaN</td>
+<td>False</td>
+<td>1977</td>
+<td>1957</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">96</th>
+<td>96</td>
+<td>Jan 27 2026 08:02:08</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>NaN</td>
+<td>True</td>
+<td>1995</td>
+<td>2016</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">97</th>
+<td>97</td>
+<td>Jan 27 2026 08:02:08</td>
+<td>Watermelon1708</td>
+<td>SHIPWRECK</td>
+<td>NaN</td>
+<td>False</td>
+<td>2011</td>
+<td>1990</td>
+</tr>
+</tbody>
+</table>
+
+<p>100 rows × 8 columns</p>
+</div>
+</div>
+</div>
+<div id="095922c7" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#And now watch the index reset!</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span> <span class="op">=</span> <span class="bu">sorted</span>.reset_index()</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">index</th>
+<th data-quarto-table-cell-role="th">Unnamed: 0</th>
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th">Username</th>
+<th data-quarto-table-cell-role="th">seed_type</th>
+<th data-quarto-table-cell-role="th">dragon_death</th>
+<th data-quarto-table-cell-role="th">winner</th>
+<th data-quarto-table-cell-role="th">elo_before</th>
+<th data-quarto-table-cell-role="th">elo_after</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>46</td>
+<td>46</td>
+<td>Jan 13 2026 06:44:09</td>
+<td>7rowl</td>
+<td>RUINED_PORTAL</td>
+<td>432.848</td>
+<td>True</td>
+<td>1792</td>
+<td>1810</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>25</td>
+<td>25</td>
+<td>Jan&nbsp;&nbsp;4 2026 18:38:18</td>
+<td>7rowl</td>
+<td>BURIED_TREASURE</td>
+<td>471.949</td>
+<td>True</td>
+<td>1711</td>
+<td>1730</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>99</td>
+<td>99</td>
+<td>Jan 27 2026 08:16:19</td>
+<td>bing_pigs</td>
+<td>SHIPWRECK</td>
+<td>477.807</td>
+<td>True</td>
+<td>2057</td>
+<td>2076</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>98</td>
+<td>98</td>
+<td>Jan 27 2026 08:16:19</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>485.109</td>
+<td>False</td>
+<td>2016</td>
+<td>1997</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>38</td>
+<td>38</td>
+<td>Jan&nbsp;&nbsp;4 2026 19:48:19</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>491.928</td>
+<td>True</td>
+<td>1759</td>
+<td>1775</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">95</th>
+<td>90</td>
+<td>90</td>
+<td>Jan 27 2026 07:23:57</td>
+<td>yjako</td>
+<td>VILLAGE</td>
+<td>NaN</td>
+<td>False</td>
+<td>1820</td>
+<td>1804</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">96</th>
+<td>92</td>
+<td>92</td>
+<td>Jan 27 2026 07:37:23</td>
+<td>sosiski52</td>
+<td>DESERT_TEMPLE</td>
+<td>NaN</td>
+<td>False</td>
+<td>1864</td>
+<td>1847</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">97</th>
+<td>94</td>
+<td>94</td>
+<td>Jan 27 2026 07:57:42</td>
+<td>retropog</td>
+<td>SHIPWRECK</td>
+<td>NaN</td>
+<td>False</td>
+<td>1977</td>
+<td>1957</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">98</th>
+<td>96</td>
+<td>96</td>
+<td>Jan 27 2026 08:02:08</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>NaN</td>
+<td>True</td>
+<td>1995</td>
+<td>2016</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">99</th>
+<td>97</td>
+<td>97</td>
+<td>Jan 27 2026 08:02:08</td>
+<td>Watermelon1708</td>
+<td>SHIPWRECK</td>
+<td>NaN</td>
+<td>False</td>
+<td>2011</td>
+<td>1990</td>
+</tr>
+</tbody>
+</table>
+
+<p>100 rows × 9 columns</p>
+</div>
+</div>
 </div>
 <p>Another useful instance of this method is after creating a grouped DataFrame. These don’t come with an index by default, which can cause errors when you try to run other functions on it. Calling <strong>reset_index</strong> will restore an index, solving the issue.</p>
-<div id="6e0a657d" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#oh no, my index!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="30495802" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can look at grouped from the NamedAgg demonstration. Up there, the rows don't have indexes. But this will add them!</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>grouped.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>grouped</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Username</th>
+<th data-quarto-table-cell-role="th">max_elo</th>
+<th data-quarto-table-cell-role="th">avg_elo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>7astrid</td>
+<td>1574</td>
+<td>1574.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>7rowl</td>
+<td>2016</td>
+<td>1802.180000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Ancoboyy</td>
+<td>1951</td>
+<td>1929.500000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Feinberg</td>
+<td>1885</td>
+<td>1860.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Finnitzko</td>
+<td>1657</td>
+<td>1648.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>Fkhxyyy</td>
+<td>1705</td>
+<td>1704.500000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>Infume</td>
+<td>1844</td>
+<td>1844.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>JackoWacko62</td>
+<td>1622</td>
+<td>1608.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>JustAltoid</td>
+<td>1860</td>
+<td>1860.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>LilMinien</td>
+<td>1562</td>
+<td>1562.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>Magmania</td>
+<td>1773</td>
+<td>1773.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>MrBudgiee</td>
+<td>1803</td>
+<td>1803.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>MultiPori</td>
+<td>1645</td>
+<td>1645.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>Psemcovici</td>
+<td>1652</td>
+<td>1652.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>Thieu_ta_H_Light</td>
+<td>1700</td>
+<td>1674.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>Watermelon1708</td>
+<td>1990</td>
+<td>1990.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>Wayyyyyy_</td>
+<td>1598</td>
+<td>1598.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>autoqualler</td>
+<td>1601</td>
+<td>1601.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">18</th>
+<td>bing_pigs</td>
+<td>2076</td>
+<td>2047.500000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19</th>
+<td>blobserr</td>
+<td>1765</td>
+<td>1765.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">20</th>
+<td>meebie</td>
+<td>1732</td>
+<td>1732.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">21</th>
+<td>mi5f1t</td>
+<td>1633</td>
+<td>1633.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">22</th>
+<td>nEmerald</td>
+<td>1716</td>
+<td>1699.750000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">23</th>
+<td>pardonmc</td>
+<td>1687</td>
+<td>1687.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">24</th>
+<td>paukll</td>
+<td>1620</td>
+<td>1620.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">25</th>
+<td>pogmonkey21</td>
+<td>1590</td>
+<td>1590.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">26</th>
+<td>pplazzz</td>
+<td>1636</td>
+<td>1636.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">27</th>
+<td>retropog</td>
+<td>1957</td>
+<td>1957.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">28</th>
+<td>shrddr</td>
+<td>1654</td>
+<td>1654.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">29</th>
+<td>skylewl</td>
+<td>1590</td>
+<td>1590.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">30</th>
+<td>sosiski52</td>
+<td>1847</td>
+<td>1767.500000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">31</th>
+<td>takachaaaaaaan</td>
+<td>1657</td>
+<td>1657.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">32</th>
+<td>v_strid</td>
+<td>1585</td>
+<td>1585.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">33</th>
+<td>vorbh</td>
+<td>1775</td>
+<td>1751.666667</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">34</th>
+<td>vorbhfan6</td>
+<td>1691</td>
+<td>1691.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">35</th>
+<td>xFray_</td>
+<td>1724</td>
+<td>1724.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">36</th>
+<td>yjako</td>
+<td>1804</td>
+<td>1804.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
 <p>This has been the solution to headache many times for me in the past. Oh, and one bonus tip for you: in <strong>reset_index</strong>, and many others DataFrame methods, there’s an argument called <em>inplace</em>. Set that to true, and now you can just call the method instead of reassigning the variable to the same name!</p>
 </section>
