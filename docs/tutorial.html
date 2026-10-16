@@ -206,7 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>Pandas is one of the most useful python packages we have access to in data scicence. The objects it uses (Series, DataFrames, and more) make working with data super easy and intuitive! As a STAT 386 student, you should already have a solid grasp on the main concepts and tools available to you. The purpose of this tutorial is to show off some of the secrets buried in the package that can make some workflows much easier! These tips are split up into 3 sections, covering 3 important steps of working with data: importing, cleaning, and manipulating. Let’s get to it!</p>
-<div id="3d8cff0a" class="cell" data-execution_count="1">
+<div id="8814f9a7" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
@@ -249,10 +249,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </code></pre>
 <p>JSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, databases. Extracting data out of this format manually would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function <strong>read_json</strong> gladly accepts data of this format and returns it as a glorious DataFrame!</p>
-<div id="bf009fc4" class="cell" data-execution_count="2">
+<div id="4fada19a" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>json_demo <span class="op">=</span> <span class="st">'tutorialdata/data.json'</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pd.read_json(json_demo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <div>
 
 
@@ -425,16 +425,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="pd.categorical">pd.Categorical</h2>
 <p><a href="https://pandas.pydata.org/docs/reference/api/pandas.Categorical.html">Docs link</a></p>
 <p>Did you know that Pandas adds more classes than just the Series and the DataFrame? It’s true! One such object is the <strong>Categorical</strong>. This nifty guy can define the options for a categorical variable, which is a common occurence in data. This way, entries in your category column are their own data type, instead of integer, string, or otherwise.</p>
-<div id="1753e9fa" class="cell" data-execution_count="3">
+<div id="478fdba7" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'tutorialdata/data.csv'</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, seed_type is a categorical variable; it can only be one of 5 values</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>]</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Redefining the column with the Categorical class wrapped around it makes it so that the values fall into distinct categories</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">"seed_type"</span>])</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>0     DESERT_TEMPLE
+1     DESERT_TEMPLE
+2     DESERT_TEMPLE
+3     DESERT_TEMPLE
+4     RUINED_PORTAL
+          ...      
+95        SHIPWRECK
+96        SHIPWRECK
+97        SHIPWRECK
+98        SHIPWRECK
+99        SHIPWRECK
+Name: seed_type, Length: 100, dtype: str</code></pre>
+</div>
+</div>
+<div id="7ae1dcbe" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Redefining the column with the Categorical class wrapped around it makes it so that the values fall into distinct categories</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">"seed_type"</span>])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>0     DESERT_TEMPLE
 1     DESERT_TEMPLE
 2     DESERT_TEMPLE
@@ -451,11 +466,11 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </div>
 </div>
 <p>One case where this becomes extremely useful is when the category is ordered or hierarchical. If your category is represented by text, sorting usually doesn’t fair so well:</p>
-<div id="fad72b14" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's say I want to rank the seeds in this order: Buried Treasure, Shipwreck, Ruined Portal, Village, Desert Temple</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># In its current state, the seeds will rank alphabetically</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">"seed_type"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div id="28ee7ffe" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's say I want to rank the seeds by my personal preference: Buried Treasure, Shipwreck, Ruined Portal, Village, Desert Temple</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># In its current state, the seeds will rank alphabetically</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">"seed_type"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
 <div>
 
 
@@ -463,7 +478,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Unnamed: 0</th>
 <th data-quarto-table-cell-role="th">Date</th>
 <th data-quarto-table-cell-role="th">Username</th>
 <th data-quarto-table-cell-role="th">seed_type</th>
@@ -476,7 +490,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">77</th>
-<td>77</td>
 <td>Jan 27 2026 05:12:27</td>
 <td>7rowl</td>
 <td>BURIED_TREASURE</td>
@@ -487,7 +500,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">25</th>
-<td>25</td>
 <td>Jan&nbsp;&nbsp;4 2026 18:38:18</td>
 <td>7rowl</td>
 <td>BURIED_TREASURE</td>
@@ -498,7 +510,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">15</th>
-<td>15</td>
 <td>Jan&nbsp;&nbsp;4 2026 17:56:55</td>
 <td>7rowl</td>
 <td>BURIED_TREASURE</td>
@@ -509,7 +520,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">14</th>
-<td>14</td>
 <td>Jan&nbsp;&nbsp;4 2026 17:56:55</td>
 <td>nEmerald</td>
 <td>BURIED_TREASURE</td>
@@ -520,7 +530,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">80</th>
-<td>80</td>
 <td>Jan 27 2026 05:43:16</td>
 <td>7rowl</td>
 <td>BURIED_TREASURE</td>
@@ -538,11 +547,9 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 <td>...</td>
 <td>...</td>
 <td>...</td>
-<td>...</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">69</th>
-<td>69</td>
 <td>Jan 21 2026 07:37:16</td>
 <td>Ancoboyy</td>
 <td>VILLAGE</td>
@@ -553,7 +560,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">68</th>
-<td>68</td>
 <td>Jan 21 2026 07:37:16</td>
 <td>7rowl</td>
 <td>VILLAGE</td>
@@ -564,7 +570,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">63</th>
-<td>63</td>
 <td>Jan 21 2026 06:59:12</td>
 <td>Thieu_ta_H_Light</td>
 <td>VILLAGE</td>
@@ -575,7 +580,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">10</th>
-<td>10</td>
 <td>Jan&nbsp;&nbsp;1 2026 22:28:12</td>
 <td>7rowl</td>
 <td>VILLAGE</td>
@@ -586,7 +590,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">73</th>
-<td>73</td>
 <td>Jan 27 2026 04:49:24</td>
 <td>7rowl</td>
 <td>VILLAGE</td>
@@ -598,16 +601,16 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tbody>
 </table>
 
-<p>100 rows × 8 columns</p>
+<p>100 rows × 7 columns</p>
 </div>
 </div>
 </div>
 <p>Upon initializing a Categorical, you can add the parameter <code>ordered=True</code> to set the order. This method requires <em>categories</em>, a list with the categories in order from highest to lowest. Now you can call <strong>sort_values</strong> on the category and it will work!</p>
-<div id="0fb2eae3" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">"seed_type"</span>], ordered<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                                categories<span class="op">=</span>[<span class="st">"BURIED_TREASURE"</span>, <span class="st">"SHIPWRECK"</span>, <span class="st">"RUINED_PORTAL"</span>, <span class="st">"VILLAGE"</span>, <span class="st">"DESERT_TEMPLE"</span>])</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">"seed_type"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div id="f2cf0a8f" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">"seed_type"</span>], ordered<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                                categories<span class="op">=</span>[<span class="st">"BURIED_TREASURE"</span>, <span class="st">"SHIPWRECK"</span>, <span class="st">"RUINED_PORTAL"</span>, <span class="st">"VILLAGE"</span>, <span class="st">"DESERT_TEMPLE"</span>])</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">"seed_type"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
 <div>
 
 
@@ -615,7 +618,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Unnamed: 0</th>
 <th data-quarto-table-cell-role="th">Date</th>
 <th data-quarto-table-cell-role="th">Username</th>
 <th data-quarto-table-cell-role="th">seed_type</th>
@@ -628,7 +630,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">24</th>
-<td>24</td>
 <td>Jan&nbsp;&nbsp;4 2026 18:38:18</td>
 <td>Psemcovici</td>
 <td>BURIED_TREASURE</td>
@@ -639,7 +640,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">65</th>
-<td>65</td>
 <td>Jan 21 2026 07:13:57</td>
 <td>7rowl</td>
 <td>BURIED_TREASURE</td>
@@ -650,7 +650,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">64</th>
-<td>64</td>
 <td>Jan 21 2026 07:13:57</td>
 <td>pplazzz</td>
 <td>BURIED_TREASURE</td>
@@ -661,7 +660,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">59</th>
-<td>59</td>
 <td>Jan 21 2026 06:34:37</td>
 <td>7rowl</td>
 <td>BURIED_TREASURE</td>
@@ -672,7 +670,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">58</th>
-<td>58</td>
 <td>Jan 21 2026 06:34:37</td>
 <td>sosiski52</td>
 <td>BURIED_TREASURE</td>
@@ -690,11 +687,9 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 <td>...</td>
 <td>...</td>
 <td>...</td>
-<td>...</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">19</th>
-<td>19</td>
 <td>Jan&nbsp;&nbsp;4 2026 18:13:39</td>
 <td>7rowl</td>
 <td>DESERT_TEMPLE</td>
@@ -705,7 +700,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">30</th>
-<td>30</td>
 <td>Jan&nbsp;&nbsp;4 2026 19:14:57</td>
 <td>7rowl</td>
 <td>DESERT_TEMPLE</td>
@@ -716,7 +710,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">31</th>
-<td>31</td>
 <td>Jan&nbsp;&nbsp;4 2026 19:14:57</td>
 <td>meebie</td>
 <td>DESERT_TEMPLE</td>
@@ -727,7 +720,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">83</th>
-<td>83</td>
 <td>Jan 27 2026 06:21:44</td>
 <td>Fkhxyyy</td>
 <td>DESERT_TEMPLE</td>
@@ -738,7 +730,6 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>0</td>
 <td>Jan&nbsp;&nbsp;1 2026 20:39:00</td>
 <td>autoqualler</td>
 <td>DESERT_TEMPLE</td>
@@ -750,7 +741,7 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </tbody>
 </table>
 
-<p>100 rows × 8 columns</p>
+<p>100 rows × 7 columns</p>
 </div>
 </div>
 </div>
@@ -758,13 +749,22 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </section>
 <section id="series-methods" class="level2">
 <h2 class="anchored" data-anchor-id="series-methods">Series methods</h2>
-<p>Thankfully, Pandas has made working with columns of DataFrame/Series really intuitive. You can use the normal sign operators between them, like +, -, *, /, %, ^, and more. However, did you know that you can also represent these operations with methods? Here’s that same list I gave, but in method form: - .add() - .sub() - .mul() - .div() - .floordiv() - .mod() - .pow()</p>
+<p>Thankfully, Pandas has made working with columns of DataFrame/Series really intuitive. You can use the normal sign operators between them, like +, -, *, /, %, ^, and more. However, did you know that you can also represent these operations with methods? Here’s that same list I gave, but in method form:</p>
+<ul>
+<li>.add()</li>
+<li>.sub()</li>
+<li>.mul()</li>
+<li>.div()</li>
+<li>.floordiv()</li>
+<li>.mod()</li>
+<li>.pow()</li>
+</ul>
 <p>On their own, they’re not particularly helpful or interesting. However, there’s two hidden features I’d like to spotlight.</p>
 <p>For the first, there’s once again an optional argument I’d like to call attention to: <em>fill_value</em>. In the case that missing values have been left in the dataset, this parameter substitutes your passed in value for the missing value when performing the operation. It’s effectively a <strong>fillna</strong> for just a moment.</p>
-<div id="817235d1" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note how you can also use constants!</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"dragon_death"</span>].sub(<span class="dv">90</span>, fill_value<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div id="b4fafa09" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note how you can also use constants!</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"dragon_death"</span>].sub(<span class="dv">90</span>, fill_value<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>0     -90.000
 1     414.349
 2     -90.000
@@ -780,10 +780,14 @@ Name: dragon_death, Length: 100, dtype: float64</code></pre>
 </div>
 </div>
 <p>Secondly, functions are evaluated as they are called, meaning that order of operations doesn’t have to be accounted for: you can just call each method one right after the other.</p>
-<div id="b68037ed" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>elo_change_pct <span class="op">=</span> df[<span class="st">"elo_after"</span>].sub(df[<span class="st">"elo_before"</span>]).div(df[<span class="st">"elo_after"</span>])</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>elo_change_pct</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div id="f1e8393f" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This doesn't work; you need parentheses around the subtraction for it to go first</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>elo_change_pct <span class="op">=</span> df[<span class="st">"elo_after"</span>] <span class="op">-</span> df[<span class="st">"elo_before"</span>] <span class="op">/</span> df[<span class="st">"elo_after"</span>]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, the operations are evaluated one after the other, like in a calculator</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>elo_change_pct <span class="op">=</span> df[<span class="st">"elo_after"</span>].sub(df[<span class="st">"elo_before"</span>]).div(df[<span class="st">"elo_after"</span>])</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>elo_change_pct</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>0    -0.011868
 1     0.011337
 2    -0.013956
@@ -808,20 +812,20 @@ Length: 100, dtype: float64</code></pre>
 <h2 class="anchored" data-anchor-id="pd.namedagg">pd.NamedAgg()</h2>
 <p><a href="https://pandas.pydata.org/docs/reference/api/pandas.NamedAgg.html">Docs Link</a></p>
 <p>Another class coming at you, this one called <strong>NamedAgg</strong>! This takes an aggregation that you might make in a DataFrame and assigns it to a variable, or in other words, gives it a name. This way, you can then call that variable when aggregating your DataFrame. This can allow you to use the same aggregation across multiple DataFrames. Furthermore, and in my opinion more useful, is that it makes your code more readable for a demo, like in a notebook.</p>
-<div id="c25413eb" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we can define our aggs, with descriptive and recognizable names</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>elomaxagg <span class="op">=</span> pd.NamedAgg(<span class="st">"elo_after"</span>, <span class="st">"max"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>eloavgagg <span class="op">=</span> pd.NamedAgg(<span class="st">"elo_after"</span>, <span class="st">"mean"</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># then we can take a break,perhaps explain another concept..ConnectionAbortedError</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># and now we can return to the aggregation, and use our NamedAggs to do so!</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby(<span class="st">"Username"</span>).agg(</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    max_elo <span class="op">=</span> elomaxagg,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    avg_elo <span class="op">=</span> eloavgagg</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>grouped</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div id="f3b82e79" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we can define our aggs, with descriptive and recognizable names</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>elomaxagg <span class="op">=</span> pd.NamedAgg(<span class="st">"elo_after"</span>, <span class="st">"max"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>eloavgagg <span class="op">=</span> pd.NamedAgg(<span class="st">"elo_after"</span>, <span class="st">"mean"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># then we can take a break, perhaps explain another concept..ConnectionAbortedError</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># and now we can return to the aggregation, and use our NamedAggs to do so!</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby(<span class="st">"Username"</span>).agg(</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    max_elo <span class="op">=</span> elomaxagg,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    avg_elo <span class="op">=</span> eloavgagg</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>grouped.<span class="bu">round</span>().head(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
 <div>
 
 
@@ -842,187 +846,52 @@ Length: 100, dtype: float64</code></pre>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">7astrid</th>
 <td>1574</td>
-<td>1574.000000</td>
+<td>1574.0</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">7rowl</th>
 <td>2016</td>
-<td>1802.180000</td>
+<td>1802.0</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Ancoboyy</th>
 <td>1951</td>
-<td>1929.500000</td>
+<td>1930.0</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Feinberg</th>
 <td>1885</td>
-<td>1860.000000</td>
+<td>1860.0</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Finnitzko</th>
 <td>1657</td>
-<td>1648.000000</td>
+<td>1648.0</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Fkhxyyy</th>
 <td>1705</td>
-<td>1704.500000</td>
+<td>1704.0</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Infume</th>
 <td>1844</td>
-<td>1844.000000</td>
+<td>1844.0</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">JackoWacko62</th>
 <td>1622</td>
-<td>1608.000000</td>
+<td>1608.0</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">JustAltoid</th>
 <td>1860</td>
-<td>1860.000000</td>
+<td>1860.0</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">LilMinien</th>
 <td>1562</td>
-<td>1562.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Magmania</th>
-<td>1773</td>
-<td>1773.000000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">MrBudgiee</th>
-<td>1803</td>
-<td>1803.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">MultiPori</th>
-<td>1645</td>
-<td>1645.000000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Psemcovici</th>
-<td>1652</td>
-<td>1652.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Thieu_ta_H_Light</th>
-<td>1700</td>
-<td>1674.000000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Watermelon1708</th>
-<td>1990</td>
-<td>1990.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Wayyyyyy_</th>
-<td>1598</td>
-<td>1598.000000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">autoqualler</th>
-<td>1601</td>
-<td>1601.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">bing_pigs</th>
-<td>2076</td>
-<td>2047.500000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">blobserr</th>
-<td>1765</td>
-<td>1765.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">meebie</th>
-<td>1732</td>
-<td>1732.000000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">mi5f1t</th>
-<td>1633</td>
-<td>1633.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">nEmerald</th>
-<td>1716</td>
-<td>1699.750000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">pardonmc</th>
-<td>1687</td>
-<td>1687.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">paukll</th>
-<td>1620</td>
-<td>1620.000000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">pogmonkey21</th>
-<td>1590</td>
-<td>1590.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">pplazzz</th>
-<td>1636</td>
-<td>1636.000000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">retropog</th>
-<td>1957</td>
-<td>1957.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">shrddr</th>
-<td>1654</td>
-<td>1654.000000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">skylewl</th>
-<td>1590</td>
-<td>1590.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">sosiski52</th>
-<td>1847</td>
-<td>1767.500000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">takachaaaaaaan</th>
-<td>1657</td>
-<td>1657.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">v_strid</th>
-<td>1585</td>
-<td>1585.000000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">vorbh</th>
-<td>1775</td>
-<td>1751.666667</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">vorbhfan6</th>
-<td>1691</td>
-<td>1691.000000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">xFray_</th>
-<td>1724</td>
-<td>1724.000000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">yjako</th>
-<td>1804</td>
-<td>1804.000000</td>
+<td>1562.0</td>
 </tr>
 </tbody>
 </table>
@@ -1036,11 +905,11 @@ Length: 100, dtype: float64</code></pre>
 <h2 class="anchored" data-anchor-id="reset_index">reset_index()</h2>
 <p><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html">Docs page</a></p>
 <p>This one might honestly be my favorite. I’ve used it numerous times in actual projects. We all know that <strong>sort_values</strong> will change the order of the appearance of the rows, showing according to the specified column(s). However, the index values for these rows will remain the same, even if you save the sorted DataFrame to a new name. This is where the method <strong>reset_index</strong> comes to the rescue! This function returns an identical DataFrame, except that the row indexes now start at 1 and go up, esentially setting the default state of the DataFrame to the sorted version.</p>
-<div id="b15b2470" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Notice how here the indexes jump around, even after saving the DataFrame</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span> <span class="op">=</span> df.sort_values(<span class="st">"dragon_death"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div id="45015fd0" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Notice how here the indexes jump around, even after saving the DataFrame</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span> <span class="op">=</span> df.sort_values(<span class="st">"dragon_death"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
 <div>
 
 
@@ -1048,7 +917,6 @@ Length: 100, dtype: float64</code></pre>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Unnamed: 0</th>
 <th data-quarto-table-cell-role="th">Date</th>
 <th data-quarto-table-cell-role="th">Username</th>
 <th data-quarto-table-cell-role="th">seed_type</th>
@@ -1061,7 +929,6 @@ Length: 100, dtype: float64</code></pre>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">46</th>
-<td>46</td>
 <td>Jan 13 2026 06:44:09</td>
 <td>7rowl</td>
 <td>RUINED_PORTAL</td>
@@ -1072,7 +939,6 @@ Length: 100, dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">25</th>
-<td>25</td>
 <td>Jan&nbsp;&nbsp;4 2026 18:38:18</td>
 <td>7rowl</td>
 <td>BURIED_TREASURE</td>
@@ -1083,7 +949,6 @@ Length: 100, dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">99</th>
-<td>99</td>
 <td>Jan 27 2026 08:16:19</td>
 <td>bing_pigs</td>
 <td>SHIPWRECK</td>
@@ -1094,7 +959,6 @@ Length: 100, dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">98</th>
-<td>98</td>
 <td>Jan 27 2026 08:16:19</td>
 <td>7rowl</td>
 <td>SHIPWRECK</td>
@@ -1105,6 +969,150 @@ Length: 100, dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">38</th>
+<td>Jan&nbsp;&nbsp;4 2026 19:48:19</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>491.928</td>
+<td>True</td>
+<td>1759</td>
+<td>1775</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">90</th>
+<td>Jan 27 2026 07:23:57</td>
+<td>yjako</td>
+<td>VILLAGE</td>
+<td>NaN</td>
+<td>False</td>
+<td>1820</td>
+<td>1804</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">92</th>
+<td>Jan 27 2026 07:37:23</td>
+<td>sosiski52</td>
+<td>DESERT_TEMPLE</td>
+<td>NaN</td>
+<td>False</td>
+<td>1864</td>
+<td>1847</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">94</th>
+<td>Jan 27 2026 07:57:42</td>
+<td>retropog</td>
+<td>SHIPWRECK</td>
+<td>NaN</td>
+<td>False</td>
+<td>1977</td>
+<td>1957</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">96</th>
+<td>Jan 27 2026 08:02:08</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>NaN</td>
+<td>True</td>
+<td>1995</td>
+<td>2016</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">97</th>
+<td>Jan 27 2026 08:02:08</td>
+<td>Watermelon1708</td>
+<td>SHIPWRECK</td>
+<td>NaN</td>
+<td>False</td>
+<td>2011</td>
+<td>1990</td>
+</tr>
+</tbody>
+</table>
+
+<p>100 rows × 7 columns</p>
+</div>
+</div>
+</div>
+<div id="f269c73c" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#And now watch the index reset!</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span> <span class="op">=</span> <span class="bu">sorted</span>.reset_index()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">index</th>
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th">Username</th>
+<th data-quarto-table-cell-role="th">seed_type</th>
+<th data-quarto-table-cell-role="th">dragon_death</th>
+<th data-quarto-table-cell-role="th">winner</th>
+<th data-quarto-table-cell-role="th">elo_before</th>
+<th data-quarto-table-cell-role="th">elo_after</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>46</td>
+<td>Jan 13 2026 06:44:09</td>
+<td>7rowl</td>
+<td>RUINED_PORTAL</td>
+<td>432.848</td>
+<td>True</td>
+<td>1792</td>
+<td>1810</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>25</td>
+<td>Jan&nbsp;&nbsp;4 2026 18:38:18</td>
+<td>7rowl</td>
+<td>BURIED_TREASURE</td>
+<td>471.949</td>
+<td>True</td>
+<td>1711</td>
+<td>1730</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>99</td>
+<td>Jan 27 2026 08:16:19</td>
+<td>bing_pigs</td>
+<td>SHIPWRECK</td>
+<td>477.807</td>
+<td>True</td>
+<td>2057</td>
+<td>2076</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>98</td>
+<td>Jan 27 2026 08:16:19</td>
+<td>7rowl</td>
+<td>SHIPWRECK</td>
+<td>485.109</td>
+<td>False</td>
+<td>2016</td>
+<td>1997</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
 <td>38</td>
 <td>Jan&nbsp;&nbsp;4 2026 19:48:19</td>
 <td>7rowl</td>
@@ -1126,7 +1134,7 @@ Length: 100, dtype: float64</code></pre>
 <td>...</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">90</th>
+<th data-quarto-table-cell-role="th">95</th>
 <td>90</td>
 <td>Jan 27 2026 07:23:57</td>
 <td>yjako</td>
@@ -1137,7 +1145,7 @@ Length: 100, dtype: float64</code></pre>
 <td>1804</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">92</th>
+<th data-quarto-table-cell-role="th">96</th>
 <td>92</td>
 <td>Jan 27 2026 07:37:23</td>
 <td>sosiski52</td>
@@ -1148,7 +1156,7 @@ Length: 100, dtype: float64</code></pre>
 <td>1847</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">94</th>
+<th data-quarto-table-cell-role="th">97</th>
 <td>94</td>
 <td>Jan 27 2026 07:57:42</td>
 <td>retropog</td>
@@ -1159,7 +1167,7 @@ Length: 100, dtype: float64</code></pre>
 <td>1957</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">96</th>
+<th data-quarto-table-cell-role="th">98</th>
 <td>96</td>
 <td>Jan 27 2026 08:02:08</td>
 <td>7rowl</td>
@@ -1170,7 +1178,7 @@ Length: 100, dtype: float64</code></pre>
 <td>2016</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">97</th>
+<th data-quarto-table-cell-role="th">99</th>
 <td>97</td>
 <td>Jan 27 2026 08:02:08</td>
 <td>Watermelon1708</td>
@@ -1187,175 +1195,13 @@ Length: 100, dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div id="ca95fdb7" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#And now watch the index reset!</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span> <span class="op">=</span> <span class="bu">sorted</span>.reset_index()</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">index</th>
-<th data-quarto-table-cell-role="th">Unnamed: 0</th>
-<th data-quarto-table-cell-role="th">Date</th>
-<th data-quarto-table-cell-role="th">Username</th>
-<th data-quarto-table-cell-role="th">seed_type</th>
-<th data-quarto-table-cell-role="th">dragon_death</th>
-<th data-quarto-table-cell-role="th">winner</th>
-<th data-quarto-table-cell-role="th">elo_before</th>
-<th data-quarto-table-cell-role="th">elo_after</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>46</td>
-<td>46</td>
-<td>Jan 13 2026 06:44:09</td>
-<td>7rowl</td>
-<td>RUINED_PORTAL</td>
-<td>432.848</td>
-<td>True</td>
-<td>1792</td>
-<td>1810</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>25</td>
-<td>25</td>
-<td>Jan&nbsp;&nbsp;4 2026 18:38:18</td>
-<td>7rowl</td>
-<td>BURIED_TREASURE</td>
-<td>471.949</td>
-<td>True</td>
-<td>1711</td>
-<td>1730</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>99</td>
-<td>99</td>
-<td>Jan 27 2026 08:16:19</td>
-<td>bing_pigs</td>
-<td>SHIPWRECK</td>
-<td>477.807</td>
-<td>True</td>
-<td>2057</td>
-<td>2076</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>98</td>
-<td>98</td>
-<td>Jan 27 2026 08:16:19</td>
-<td>7rowl</td>
-<td>SHIPWRECK</td>
-<td>485.109</td>
-<td>False</td>
-<td>2016</td>
-<td>1997</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
-<td>38</td>
-<td>38</td>
-<td>Jan&nbsp;&nbsp;4 2026 19:48:19</td>
-<td>7rowl</td>
-<td>SHIPWRECK</td>
-<td>491.928</td>
-<td>True</td>
-<td>1759</td>
-<td>1775</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">...</th>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">95</th>
-<td>90</td>
-<td>90</td>
-<td>Jan 27 2026 07:23:57</td>
-<td>yjako</td>
-<td>VILLAGE</td>
-<td>NaN</td>
-<td>False</td>
-<td>1820</td>
-<td>1804</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">96</th>
-<td>92</td>
-<td>92</td>
-<td>Jan 27 2026 07:37:23</td>
-<td>sosiski52</td>
-<td>DESERT_TEMPLE</td>
-<td>NaN</td>
-<td>False</td>
-<td>1864</td>
-<td>1847</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">97</th>
-<td>94</td>
-<td>94</td>
-<td>Jan 27 2026 07:57:42</td>
-<td>retropog</td>
-<td>SHIPWRECK</td>
-<td>NaN</td>
-<td>False</td>
-<td>1977</td>
-<td>1957</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">98</th>
-<td>96</td>
-<td>96</td>
-<td>Jan 27 2026 08:02:08</td>
-<td>7rowl</td>
-<td>SHIPWRECK</td>
-<td>NaN</td>
-<td>True</td>
-<td>1995</td>
-<td>2016</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">99</th>
-<td>97</td>
-<td>97</td>
-<td>Jan 27 2026 08:02:08</td>
-<td>Watermelon1708</td>
-<td>SHIPWRECK</td>
-<td>NaN</td>
-<td>False</td>
-<td>2011</td>
-<td>1990</td>
-</tr>
-</tbody>
-</table>
-
-<p>100 rows × 9 columns</p>
-</div>
-</div>
-</div>
+<p>Also notice that the old index gets introduced as a new column! This allows you to go bac to the original order by sorting by that column. If you don’t want to have that column, simply add the argument <code>drop=True</code>.</p>
 <p>Another useful instance of this method is after creating a grouped DataFrame. These don’t come with an index by default, which can cause errors when you try to run other functions on it. Calling <strong>reset_index</strong> will restore an index, solving the issue.</p>
-<div id="194ad515" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can look at grouped from the NamedAgg demonstration. Up there, the rows don't have indexes. But this will add them!</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>grouped.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>grouped</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div id="64eb38f0" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can look at grouped from the NamedAgg demonstration. Up there, the rows don't have indexes. But this will add them!</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>grouped.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>grouped</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
 <div>
 
 

@@ -111,7 +111,9 @@ df = pd.read_csv('tutorialdata/data.csv')
 
 # Here, seed_type is a categorical variable; it can only be one of 5 values
 df["seed_type"]
+```
 
+```{python}
 # Redefining the column with the Categorical class wrapped around it makes it so that the values fall into distinct categories
 df["seed_type"] = pd.Categorical(df["seed_type"])
 df["seed_type"]
@@ -121,7 +123,7 @@ df["seed_type"]
 One case where this becomes extremely useful is when the category is ordered or hierarchical. If your category is represented by text, sorting usually doesn't fair so well:
 
 ```{python}
-# Let's say I want to rank the seeds in this order: Buried Treasure, Shipwreck, Ruined Portal, Village, Desert Temple
+# Let's say I want to rank the seeds by my personal preference: Buried Treasure, Shipwreck, Ruined Portal, Village, Desert Temple
 # In its current state, the seeds will rank alphabetically
 df.sort_values("seed_type")
 ```
@@ -139,6 +141,7 @@ df.sort_values("seed_type")
 ## Series methods
 
 Thankfully, Pandas has made working with columns of DataFrame/Series really intuitive. You can use the normal sign operators between them, like +, -, *, /, %, ^, and more. However, did you know that you can also represent these operations with methods? Here's that same list I gave, but in method form:
+
 - .add()
 - .sub()
 - .mul()
@@ -159,6 +162,10 @@ df["dragon_death"].sub(90, fill_value=0)
 Secondly, functions are evaluated as they are called, meaning that order of operations doesn't have to be accounted for: you can just call each method one right after the other.
 
 ```{python}
+# This doesn't work; you need parentheses around the subtraction for it to go first
+elo_change_pct = df["elo_after"] - df["elo_before"] / df["elo_after"]
+
+# Here, the operations are evaluated one after the other, like in a calculator
 elo_change_pct = df["elo_after"].sub(df["elo_before"]).div(df["elo_after"])
 elo_change_pct
 ```
@@ -180,14 +187,14 @@ Another class coming at you, this one called **NamedAgg**! This takes an aggrega
 elomaxagg = pd.NamedAgg("elo_after", "max")
 eloavgagg = pd.NamedAgg("elo_after", "mean")
 
-# then we can take a break,perhaps explain another concept..ConnectionAbortedError
+# then we can take a break, perhaps explain another concept..ConnectionAbortedError
 
 # and now we can return to the aggregation, and use our NamedAggs to do so!
 grouped = df.groupby("Username").agg(
     max_elo = elomaxagg,
     avg_elo = eloavgagg
 )
-grouped
+grouped.round().head(10)
 ```
 
 This one's simple, but that's part of its greatness!
@@ -209,6 +216,8 @@ sorted
 sorted = sorted.reset_index()
 sorted
 ```
+
+Also notice that the old index gets introduced as a new column! This allows you to go bac to the original order by sorting by that column. If you don't want to have that column, simply add the argument `drop=True`.
 
 Another useful instance of this method is after creating a grouped DataFrame. These don't come with an index by default, which can cause errors when you try to run other functions on it. Calling **reset_index** will restore an index, solving the issue.
 
