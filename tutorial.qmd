@@ -64,7 +64,7 @@ pd.read_json(json_demo)
 
 Only one argument is required, that being the file path of the data you want to read in. One optional argument I do want to highlight is **orient**. This informs the function the structure of your json. Here's a list of a couple options and their formats from the documentation (linked above).
 
-[There are several different formats for JSON data]('images/jsonformats.png')
+![There are several different formats for JSON data]('images/jsonformats.png')
 
 So, when you inevitably come across JSON data that you want to analyze, remember pandas already has you covered.
 

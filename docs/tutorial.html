@@ -206,7 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>Pandas is one of the most useful python packages we have access to in data scicence. The objects it uses (Series, DataFrames, and more) make working with data super easy and intuitive! As a STAT 386 student, you should already have a solid grasp on the main concepts and tools available to you. The purpose of this tutorial is to show off some of the secrets buried in the package that can make some workflows much easier! These tips are split up into 3 sections, covering 3 important steps of working with data: importing, cleaning, and manipulating. Let’s get to it!</p>
-<div id="2ec5ffa3" class="cell" data-execution_count="1">
+<div id="db76fe9e" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
@@ -249,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </code></pre>
 <p>JSON is one of the most widely used formats across the whole internet. You can find it in HTTP requests, config files, API exchanges, and notably for us, databases. Extracting data out of this format manually would involve a lot of loops and key lookups; luckily, pandas has already done the work for us! The function <strong>read_json</strong> gladly accepts data of this format and returns it as a glorious DataFrame!</p>
-<div id="a8f197c9" class="cell" data-execution_count="2">
+<div id="0c42d311" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>json_demo <span class="op">=</span> <span class="st">'tutorialdata/data.json'</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pd.read_json(json_demo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -388,7 +388,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Only one argument is required, that being the file path of the data you want to read in. One optional argument I do want to highlight is <strong>orient</strong>. This informs the function the structure of your json. Here’s a list of a couple options and their formats from the documentation (linked above).</p>
-<p><a href="'images/jsonformats.png'">There are several different formats for JSON data</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="'images/jsonformats.png'" class="img-fluid figure-img"></p>
+<figcaption>There are several different formats for JSON data</figcaption>
+</figure>
+</div>
 <p>So, when you inevitably come across JSON data that you want to analyze, remember pandas already has you covered.</p>
 </section>
 <section id="read_clipboard" class="level2">
@@ -420,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="pd.categorical">pd.Categorical</h2>
 <p><a href="https://pandas.pydata.org/docs/reference/api/pandas.Categorical.html">Docs link</a></p>
 <p>Did you know that Pandas adds more classes than just the Series and the DataFrame? It’s true! One such object is the <strong>Categorical</strong>. This nifty guy can define the options for a categorical variable, which is a common occurence in data. This way, entries in your category column are their own data type, instead of integer, string, or otherwise.</p>
-<div id="86ee0d7f" class="cell" data-execution_count="3">
+<div id="e0116365" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'tutorialdata/data.csv'</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, seed_type is a categorical variable; it can only be one of 5 values</span></span>
@@ -446,7 +451,7 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </div>
 </div>
 <p>One case where this becomes extremely useful is when the category is ordered or hierarchical. If your category is represented by text, sorting usually doesn’t fair so well:</p>
-<div id="854fe862" class="cell" data-execution_count="4">
+<div id="eb61b1ab" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's say I want to rank the seeds in this order: Buried Treasure, Shipwreck, Ruined Portal, Village, Desert Temple</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># In its current state, the seeds will rank alphabetically</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">"seed_type"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -598,7 +603,7 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 </div>
 </div>
 <p>Upon initializing a Categorical, you can add the parameter <code>ordered=True</code> to set the order. This method requires <em>categories</em>, a list with the categories in order from highest to lowest. Now you can call <strong>sort_values</strong> on the category and it will work!</p>
-<div id="54d06a5e" class="cell" data-execution_count="5">
+<div id="969f4e66" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"seed_type"</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">"seed_type"</span>], ordered<span class="op">=</span><span class="va">True</span>, </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                                categories<span class="op">=</span>[<span class="st">"BURIED_TREASURE"</span>, <span class="st">"SHIPWRECK"</span>, <span class="st">"RUINED_PORTAL"</span>, <span class="st">"VILLAGE"</span>, <span class="st">"DESERT_TEMPLE"</span>])</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">"seed_type"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -756,7 +761,7 @@ Categories (5, str): ['BURIED_TREASURE', 'DESERT_TEMPLE', 'RUINED_PORTAL', 'SHIP
 <p>Thankfully, Pandas has made working with columns of DataFrame/Series really intuitive. You can use the normal sign operators between them, like +, -, *, /, %, ^, and more. However, did you know that you can also represent these operations with methods? Here’s that same list I gave, but in method form: - .add() - .sub() - .mul() - .div() - .floordiv() - .mod() - .pow()</p>
 <p>On their own, they’re not particularly helpful or interesting. However, there’s two hidden features I’d like to spotlight.</p>
 <p>For the first, there’s once again an optional argument I’d like to call attention to: <em>fill_value</em>. In the case that missing values have been left in the dataset, this parameter substitutes your passed in value for the missing value when performing the operation. It’s effectively a <strong>fillna</strong> for just a moment.</p>
-<div id="c09b09d1" class="cell" data-execution_count="6">
+<div id="af87dd3b" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note how you can also use constants!</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"dragon_death"</span>].sub(<span class="dv">90</span>, fill_value<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -775,7 +780,7 @@ Name: dragon_death, Length: 100, dtype: float64</code></pre>
 </div>
 </div>
 <p>Secondly, functions are evaluated as they are called, meaning that order of operations doesn’t have to be accounted for: you can just call each method one right after the other.</p>
-<div id="c085069f" class="cell" data-execution_count="7">
+<div id="4bd79315" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>elo_change_pct <span class="op">=</span> df[<span class="st">"elo_after"</span>].sub(df[<span class="st">"elo_before"</span>]).div(df[<span class="st">"elo_after"</span>])</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>elo_change_pct</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
@@ -803,7 +808,7 @@ Length: 100, dtype: float64</code></pre>
 <h2 class="anchored" data-anchor-id="pd.namedagg">pd.NamedAgg()</h2>
 <p><a href="https://pandas.pydata.org/docs/reference/api/pandas.NamedAgg.html">Docs Link</a></p>
 <p>Another class coming at you, this one called <strong>NamedAgg</strong>! This takes an aggregation that you might make in a DataFrame and assigns it to a variable, or in other words, gives it a name. This way, you can then call that variable when aggregating your DataFrame. This can allow you to use the same aggregation across multiple DataFrames. Furthermore, and in my opinion more useful, is that it makes your code more readable for a demo, like in a notebook.</p>
-<div id="1bae0b66" class="cell" data-execution_count="8">
+<div id="d29c22d2" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we can define our aggs, with descriptive and recognizable names</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>elomaxagg <span class="op">=</span> pd.NamedAgg(<span class="st">"elo_after"</span>, <span class="st">"max"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>eloavgagg <span class="op">=</span> pd.NamedAgg(<span class="st">"elo_after"</span>, <span class="st">"mean"</span>)</span>
@@ -1031,7 +1036,7 @@ Length: 100, dtype: float64</code></pre>
 <h2 class="anchored" data-anchor-id="reset_index">reset_index()</h2>
 <p><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html">Docs page</a></p>
 <p>This one might honestly be my favorite. I’ve used it numerous times in actual projects. We all know that <strong>sort_values</strong> will change the order of the appearance of the rows, showing according to the specified column(s). However, the index values for these rows will remain the same, even if you save the sorted DataFrame to a new name. This is where the method <strong>reset_index</strong> comes to the rescue! This function returns an identical DataFrame, except that the row indexes now start at 1 and go up, esentially setting the default state of the DataFrame to the sorted version.</p>
-<div id="4d0e8802" class="cell" data-execution_count="9">
+<div id="130c2ed2" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Notice how here the indexes jump around, even after saving the DataFrame</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span> <span class="op">=</span> df.sort_values(<span class="st">"dragon_death"</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1182,7 +1187,7 @@ Length: 100, dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div id="86f6fefe" class="cell" data-execution_count="10">
+<div id="b14af07d" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#And now watch the index reset!</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span> <span class="op">=</span> <span class="bu">sorted</span>.reset_index()</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1346,7 +1351,7 @@ Length: 100, dtype: float64</code></pre>
 </div>
 </div>
 <p>Another useful instance of this method is after creating a grouped DataFrame. These don’t come with an index by default, which can cause errors when you try to run other functions on it. Calling <strong>reset_index</strong> will restore an index, solving the issue.</p>
-<div id="2044f468" class="cell" data-execution_count="11">
+<div id="550ccaa6" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can look at grouped from the NamedAgg demonstration. Up there, the rows don't have indexes. But this will add them!</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>grouped.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>grouped</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
