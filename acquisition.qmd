@@ -1,0 +1,13 @@
+# The mid-season roster change gambit
+## Does swapping players in the middle of the competitive seeason help teams find the missing piece or make them completely fall apart?
+Introduction text: explain VCT, explain team compositions, roles and conflicts?
+
+## Motivating question
+
+## Ethics
+
+## SUmmary of steps used
+
+## EDA highlights
+
+## Further information
