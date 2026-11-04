@@ -1,18 +1,17 @@
 # The mid-season roster change gambit
-## Does swapping players in the middle of the competitive seeason help teams find the missing piece or make them completely fall apart?
-Introduction text: explain VCT, explain team compositions, roles and conflicts?
+Does swapping players in the middle of the competitive seeason help teams find the missing piece or make them completely fall apart?
+
+## Introduction
+I love esports, and as a data scientist, I love analyzing its data. We've seen for literal decades now that data analysis can be a huge help in making a team successful, and while there's definitely a good amount of data analysis in esports, I think it can  be pushed further. I wanted to see in this project if it was possible to find the answer to a question that is generally regarded as a pure judgement call.
 
 ## Motivating question
-
-Each VCT season starts in January and ends around October. Usually, the "offseason", or the time with no matches, is when a lot of organizations change which players they have on their teams so that they can feel like they have a stronger roster heading into the next full season. This is also when the best players are likely to be available, as it's also when contracts expire and are renewed. Since VALORANT is a team game, this offseason is also an important time to help these new players create chemistry and trust between themselves so that they become better at working together. In an ideal world, the same five players gel together well, win games, and have a successful season together. However, it's a given that while some teams win, others must lose. When a team is not succeeding, an important question arises: shoudl they stick together, building off of what they already have, and hopefully work out the kinks? Or should one player be swapped out for another player who apparently wasn't considered good enough during the offseason to get a spot? It's a difficult dilemma, and one without a clear consensus. I hope the data will help show some evidence for what might be the better decision.
+In professional VALORANT, teams are comprised of 5 players and a coach, with some other optional roles. Generally, organizations remove and add players to their lineup during the offseason, because that is when the contracts of their own players and those of other organizations are expiring. Furthermore, this time is great to make changes becuase there's no important matches. This means they can experiment, build trust and unity as a team, and work out any problems that might arise from making changes. This "transfer window" usually lasts 2-3 months, and each team tries to pick up the best 5 players available for their goals to form a cohesive team by the time the official games start back up. In an ideal world, these 5 players learn to work together, become a competent team, and start winning, hopefully bringing home a trophy. However, the truth is that some teams are not going to see the success they were seeking with their roster. This brings up a challenging question: should they stick together, building off the chemistry they already have, and hopefully work out the kinks? Or should one player (or more!) be swapped out for another player who apparently wasn't good enough during the offseason to get a spot? It's a difficult dilemma, and one without a clear consensus. I hope the data will help show some evidence for what might be the better decision. 
 
 ## Ethics
 The documentation of the package declares that it has built-in rate limiting to respect the website and not overwhelm it. However, I also found that in the website's terms of service that automated scraping is not allowed. Seeing this, I have created a discussion on the package's repo to ask its author if they have consulted with the developers of the website. I ultimately decided that this project was reasonable to carry out, because of the rate-limiting and my plans to only requisition data once.
 
 ## SUmmary of steps used
-First, I read the documentation for the vlrdevapi package. I knew I was going to need to know how to use the objects that represented events, teams, and matches. I got familiar with the attributes, methods, and objects associated with each namespace.
-
-Next I 
+This project was made possible by the package vlrdevapi{https://github.com/Vanshbordia/vlrdevapi}, which is a python package that scrapes the website vlr.gg and returns its info as typed objects. A quick read of the docs and some poking around via a python console gives you a pretty good idea of how to use the package and the data it retrieves. For this process, I used the defined objects to obtain the 12 teams that participated in the VCT Americas league in the 2026 season, fetched their match histories, and their roster move histories. I then saved this data to a csv file using pandas.
 
 ## EDA highlights
 
