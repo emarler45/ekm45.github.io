@@ -4,9 +4,15 @@ Introduction text: explain VCT, explain team compositions, roles and conflicts?
 
 ## Motivating question
 
+Each VCT season starts in January and ends around October. Usually, the "offseason", or the time with no matches, is when a lot of organizations change which players they have on their teams so that they can feel like they have a stronger roster heading into the next full season. This is also when the best players are likely to be available, as it's also when contracts expire and are renewed. Since VALORANT is a team game, this offseason is also an important time to help these new players create chemistry and trust between themselves so that they become better at working together. In an ideal world, the same five players gel together well, win games, and have a successful season together. However, it's a given that while some teams win, others must lose. When a team is not succeeding, an important question arises: shoudl they stick together, building off of what they already have, and hopefully work out the kinks? Or should one player be swapped out for another player who apparently wasn't considered good enough during the offseason to get a spot? It's a difficult dilemma, and one without a clear consensus. I hope the data will help show some evidence for what might be the better decision.
+
 ## Ethics
+The documentation of the package declares that it has built-in rate limiting to respect the website and not overwhelm it. However, I also found that in the website's terms of service that automated scraping is not allowed. Seeing this, I have created a discussion on the package's repo to ask its author if they have consulted with the developers of the website. I ultimately decided that this project was reasonable to carry out, because of the rate-limiting and my plans to only requisition data once.
 
 ## SUmmary of steps used
+First, I read the documentation for the vlrdevapi package. I knew I was going to need to know how to use the objects that represented events, teams, and matches. I got familiar with the attributes, methods, and objects associated with each namespace.
+
+Next I 
 
 ## EDA highlights
 
