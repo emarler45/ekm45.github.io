@@ -1,18 +1,52 @@
 # The mid-season roster change gambit
+
 Does swapping players in the middle of the competitive seeason help teams find the missing piece or make them completely fall apart?
 
 ## Introduction
-I love esports, and as a data scientist, I love analyzing its data. We've seen for literal decades now that data analysis can be a huge help in making a team successful, and while there's definitely a good amount of data analysis in esports, I think it can  be pushed further. I wanted to see in this project if it was possible to find the answer to a question that is generally regarded as a pure judgement call.
+
+I love esports, and as a data scientist, I love analyzing its data. We've seen for literal decades now that data analysis can be a huge help in making a team successful, and while there's definitely a good amount of data analysis in esports, I think it can be pushed further. I wanted to see in this project if it was possible to find the answer to a question that is generally regarded as a pure judgement call.
 
 ## Motivating question
-In professional VALORANT, teams are comprised of 5 players and a coach, with some other optional roles. Generally, organizations remove and add players to their lineup during the offseason, because that is when the contracts of their own players and those of other organizations are expiring. Furthermore, this time is great to make changes becuase there's no important matches. This means they can experiment, build trust and unity as a team, and work out any problems that might arise from making changes. This "transfer window" usually lasts 2-3 months, and each team tries to pick up the best 5 players available for their goals to form a cohesive team by the time the official games start back up. In an ideal world, these 5 players learn to work together, become a competent team, and start winning, hopefully bringing home a trophy. However, the truth is that some teams are not going to see the success they were seeking with their roster. This brings up a challenging question: should they stick together, building off the chemistry they already have, and hopefully work out the kinks? Or should one player (or more!) be swapped out for another player who apparently wasn't good enough during the offseason to get a spot? It's a difficult dilemma, and one without a clear consensus. I hope the data will help show some evidence for what might be the better decision. 
+
+In professional VALORANT, teams are comprised of 5 players and a coach, with some other optional roles. Generally, organizations remove and add players to their lineup during the offseason, because that is when the contracts of their own players and those of other organizations are expiring. Furthermore, this time is great to make changes becuase there's no important matches. This means they can experiment, build trust and unity as a team, and work out any problems that might arise from making changes. This "transfer window" usually lasts 2-3 months, and each team tries to pick up the best 5 players available for their goals to form a cohesive team by the time the official games start back up. 
+
+In an ideal world, these 5 players learn to work together, become a competent team, and start winning, hopefully bringing home a trophy. However, the truth is that some teams are not going to see the success they were seeking with their roster. This brings up a challenging question: should they stick together, building off the chemistry they already have, and hopefully work out the kinks? Or should one player (or more!) be swapped out for another player who apparently wasn't good enough during the offseason to get a spot? It's a difficult dilemma, and one without a clear consensus. I hope the data will help show some evidence for what might be the better decision.
 
 ## Ethics
+
 The documentation of the package declares that it has built-in rate limiting to respect the website and not overwhelm it. However, I also found that in the website's terms of service that automated scraping is not allowed. Seeing this, I have created a discussion on the package's repo to ask its author if they have consulted with the developers of the website. I ultimately decided that this project was reasonable to carry out, because of the rate-limiting and my plans to only requisition data once.
 
-## SUmmary of steps used
-This project was made possible by the package vlrdevapi{https://github.com/Vanshbordia/vlrdevapi}, which is a python package that scrapes the website vlr.gg and returns its info as typed objects. A quick read of the docs and some poking around via a python console gives you a pretty good idea of how to use the package and the data it retrieves. For this process, I used the defined objects to obtain the 12 teams that participated in the VCT Americas league in the 2026 season, fetched their match histories, and their roster move histories. I then saved this data to a csv file using pandas.
+## Summary of steps used
+
+This project was made possible by the package [vlrdevapi](https://github.com/Vanshbordia/vlrdevapi), which is a python package that scrapes the website vlr.gg and returns its info as typed objects. A quick read of the docs and some poking around via a python console gives you a pretty good idea of how to use the package and the data it retrieves. For this process, I used the defined objects to obtain the 12 teams that participated in the VCT Americas league in the 2026 season, fetched their match histories, and their roster move histories. I then saved this data to a csv file using pandas.
 
 ## EDA highlights
 
+The matches dataframe came out to 361 observations across 12 different teams, averaging to just over 30 matches per team. Some quick aggregate functions then yielded this dataframe of season-long stats by team:
+
+| Name          | matches_played | match_winrate | map_winrate | round_winrate |
+|---------------|---------------:|--------------:|------------:|--------------:|
+| Sentinels     |             24 |        41.67% |      47.46% |        49.10% |
+| 100 Thieves   |             39 |        74.36% |      64.00% |        55.00% |
+| Cloud9        |             22 |        36.36% |      43.40% |        47.04% |
+| ENVY          |             22 |        36.36% |      38.89% |        47.35% |
+| NRG           |             48 |        64.58% |      59.84% |        52.61% |
+| KRÜ Esports   |             22 |        36.36% |      41.51% |        46.40% |
+| LEVIATÁN      |             33 |        63.64% |      57.47% |        53.30% |
+| FURIA         |             25 |        40.00% |      41.79% |        47.60% |
+| Evil Geniuses |             22 |        36.36% |      40.74% |        47.15% |
+| LOUD          |             31 |        58.06% |      51.22% |        50.20% |
+| MIBR          |             28 |        53.57% |      53.52% |        50.91% |
+| G2 Esports    |             46 |        60.87% |      60.68% |        52.89% |
+
+*Matches are each time two teams face each other. Matches are played Best of 3 maps, and each map is first to 13, with a win by two overtime.*
+
+While the average sits at around 30, the median is at 26.5. This shows the kind of "rich-get-richer" effect with match counts: Teams who win go deeper in tournaments, meaning they play more. This makes the match counts top heavy, where the high numbers are concentrated in a few successful teams, which drags the average up. NRG, G2, and 100 Thieves all attended several international events, while Cloud 9, Evil Geniuses, Envy, and KRU didn't make any.
+
+100 Thieves manage to claim the top spot in all three winrate columns, which reflects the large amounts of success this year; they won one domestic and one international trophy. The low match winrates of the bottom teams mentioned earlier make sense; they weren't going to the international events because they weren't winnning.
+
+Another really interesting trend is that the finer the grain of the win percentage, the closer it gets to 50. Teams who lost lots of matches have higher round win rates, and teams who won their matches have lower winrates. This shows that it's hard to be dominant over an entire year. This is the top level of play, so most matches are at least competitive, rather than blowouts.
+
 ## Further information
+
+All data comes from [vlr.gg](vlr.gg)
