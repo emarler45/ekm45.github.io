@@ -120,3 +120,7 @@ Finally, we get to our visualization showing each roster iteration's winrates, a
 ![Match win rates](data_acq_graphs/matchwins.png)
 
 So let's remember our original question: Do roster changes create success? The truth is that there is evidence for both. Teams like Cloud 9, Envy, and Furia all have noticeably lower match win rates in their later rosters. However, teams like LOUD and Sentinels got visibly better. LOUD is of particular note, as their "0", or start of year roster, had a 0% match winrate, but ended up winning the biggest tournament of the year after their two changes. One more group to take into account are teams like G2, NRG, 100 Thieves, Leviatan, and MIBR, who all made no changes. With the exception of the trophy winning LOUD iteration, they have the highest winrates. This might suggest that sticking together is the best move. Then again, rosters who are winning don't need to make changes. While this was a good start to exploring, our EDA hasn't quite proven enough either way to let us have a solid conclusion. In the future, it'd be great to include the other regions of VCT and do multiple years to get a large overview of the effects of roster changes. It'd also be interesting to compare performance of x games after a change, or compare the stats of the new players vs those they replaced.
+
+Thank you for reading!
+
+A link to the repo of the code used for this analysis can be found [here](https://github.com/emarler45/data_acquisition_blog_scripts)
