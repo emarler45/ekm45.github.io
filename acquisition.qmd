@@ -1,7 +1,6 @@
 ---
-Title: "Data Acquisition: VALORANT Roster Moves Analysis"
+title: "Data Acquisition: VALORANT Roster Moves Analysis"
 ---
-
 
 # The mid-season roster change gambit
 
